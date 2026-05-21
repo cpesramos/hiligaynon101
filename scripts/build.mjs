@@ -285,7 +285,7 @@ function renderPage(site, books, words, faq) {
     ${jsonLdScript(bookSchema(site, books))}
     ${jsonLdScript(faqSchema(faq))}
     ${jsonLdScript(wordSchema(site, words))}
-    <link rel="stylesheet" href="/styles.css?v=20260521-seo-layout">
+    <link rel="stylesheet" href="/styles.css?v=20260522-words-deploy">
   </head>
   <body>
     ${renderNav(site)}

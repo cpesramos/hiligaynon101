@@ -32,6 +32,16 @@ function findAll(pattern, text) {
 }
 
 async function check() {
+  const wranglerConfigPath = path.join(root, "wrangler.jsonc");
+  if (!existsSync(wranglerConfigPath)) {
+    throw new Error("Missing wrangler.jsonc for Cloudflare Workers assets deployment.");
+  }
+
+  const wranglerConfig = await readFile(wranglerConfigPath, "utf8");
+  if (!wranglerConfig.includes("\"directory\": \"./dist\"")) {
+    throw new Error("wrangler.jsonc must point Cloudflare Workers assets at ./dist.");
+  }
+
   if (!existsSync(dist)) {
     throw new Error("dist/ does not exist. Run npm run build first.");
   }
@@ -70,6 +80,15 @@ async function check() {
     "B0H266YQC6",
     "Amazon AU",
     "ADLAW",
+    "BALAY",
+    "TUBIG",
+    "LIBRO",
+    "BOLA",
+    "HAMPANGANAN",
+    "PAMILYA",
+    "NANAY",
+    "TATAY",
+    "LAMESA",
     "TASA",
     "https://amzn.to/4ujalZO",
     "https://amzn.to/4dTLAO2",

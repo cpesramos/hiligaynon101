@@ -142,6 +142,7 @@ a {
   color: var(--leaf);
   font-size: 0.82rem;
   font-weight: 900;
+  line-height: 1.25;
   text-transform: uppercase;
 }
 
@@ -352,7 +353,7 @@ h1 {
 
 .edition-row {
   display: grid;
-  grid-template-columns: minmax(82px, 1fr) minmax(76px, auto) minmax(92px, auto);
+  grid-template-columns: minmax(82px, 1fr) minmax(206px, auto);
   align-items: center;
   gap: 7px;
   padding: 10px 12px;
@@ -369,11 +370,14 @@ h1 {
 }
 
 .edition-actions {
-  display: contents;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(98px, 1fr));
+  gap: 8px;
 }
 
 .edition-button {
   display: inline-flex;
+  width: 100%;
   min-height: 34px;
   align-items: center;
   justify-content: center;
@@ -504,6 +508,7 @@ h1 {
 }
 
 .word-card h3 {
+  overflow-wrap: anywhere;
   margin-bottom: 4px;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 2.05rem;
@@ -669,15 +674,15 @@ h1 {
 
   .hero-inner {
     align-items: start;
-    width: calc(100vw - 32px);
-    max-width: calc(100vw - 32px);
+    width: calc(100% - 32px);
+    max-width: calc(100% - 32px);
     overflow: hidden;
     padding: 56px 0 250px;
   }
 
   .hero-copy {
-    width: calc(100vw - 32px);
-    max-width: calc(100vw - 32px);
+    width: 100%;
+    max-width: 100%;
   }
 
   h1 {
@@ -687,6 +692,7 @@ h1 {
   }
 
   .hero-copy .lede {
+    width: 100%;
     max-width: 100%;
     font-size: 1.08rem;
     overflow-wrap: break-word;

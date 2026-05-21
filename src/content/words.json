@@ -6,22 +6,16 @@
     "prompt": "Colour the sun, say adlaw, then point to the sun outside."
   },
   {
-    "word": "TASA",
-    "translation": "Cup",
-    "theme": "Home",
-    "prompt": "Hold a cup at snack time and say tasa together."
-  },
-  {
     "word": "BALAY",
     "translation": "House",
     "theme": "Home",
     "prompt": "Colour the house and say balay when you get home."
   },
   {
-    "word": "BOLA",
-    "translation": "Ball",
-    "theme": "Play",
-    "prompt": "Roll a ball, say bola, then pass it back and forth."
+    "word": "TUBIG",
+    "translation": "Water",
+    "theme": "Home",
+    "prompt": "Say tubig together when pouring a drink of water."
   },
   {
     "word": "LIBRO",
@@ -30,9 +24,45 @@
     "prompt": "Open a book and say libro before reading together."
   },
   {
-    "word": "LAPIS",
-    "translation": "Pencil",
-    "theme": "Colouring",
-    "prompt": "Pick a pencil for colouring and say lapis before starting."
+    "word": "BOLA",
+    "translation": "Ball",
+    "theme": "Play",
+    "prompt": "Roll a ball, say bola, then pass it back and forth."
+  },
+  {
+    "word": "HAMPANGANAN",
+    "translation": "Toy",
+    "theme": "Play",
+    "prompt": "Pick up a favourite toy and say hampanganan before play."
+  },
+  {
+    "word": "PAMILYA",
+    "translation": "Family",
+    "theme": "Family",
+    "prompt": "Point to a family photo and say pamilya together."
+  },
+  {
+    "word": "NANAY",
+    "translation": "Mother",
+    "theme": "Family",
+    "prompt": "Say nanay when looking at or talking about mother."
+  },
+  {
+    "word": "TATAY",
+    "translation": "Father",
+    "theme": "Family",
+    "prompt": "Say tatay when looking at or talking about father."
+  },
+  {
+    "word": "LAMESA",
+    "translation": "Table",
+    "theme": "Home",
+    "prompt": "Touch the table at home and say lamesa."
+  },
+  {
+    "word": "TASA",
+    "translation": "Cup",
+    "theme": "Home",
+    "prompt": "Hold a cup at snack time and say tasa together."
   }
 ]
