@@ -54,9 +54,12 @@ async function check() {
   for (const needle of [
     "<title>",
     "name=\"description\"",
+    "name=\"keywords\"",
     "rel=\"canonical\"",
     "property=\"og:image\"",
     "application/ld+json",
+    "DefinedTermSet",
+    "Offer",
     "Hiligaynon 101 Kids",
     "Chanelle Ramos",
     "FAQPage",
@@ -66,6 +69,8 @@ async function check() {
     "B0GT5TTQWS",
     "B0H266YQC6",
     "Amazon AU",
+    "ADLAW",
+    "TASA",
     "https://amzn.to/4ujalZO",
     "https://amzn.to/4dTLAO2",
     "As an Amazon Associate"
