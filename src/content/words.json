@@ -1,0 +1,38 @@
+[
+  {
+    "word": "IDO",
+    "translation": "Dog",
+    "theme": "Animals",
+    "prompt": "Point to a dog, say ido, then say dog together."
+  },
+  {
+    "word": "KURING",
+    "translation": "Cat",
+    "theme": "Animals",
+    "prompt": "Look for a cat in a book, toy box or picture."
+  },
+  {
+    "word": "MANGGA",
+    "translation": "Mango",
+    "theme": "Food",
+    "prompt": "Say mangga before snack time or while colouring fruit."
+  },
+  {
+    "word": "KAN-ON",
+    "translation": "Rice",
+    "theme": "Food",
+    "prompt": "Use the word during a family meal."
+  },
+  {
+    "word": "ULAN",
+    "translation": "Rain",
+    "theme": "Nature",
+    "prompt": "Say ulan when looking out the window on a rainy day."
+  },
+  {
+    "word": "KAHOY",
+    "translation": "Tree",
+    "theme": "Nature",
+    "prompt": "Point to a tree outside and repeat kahoy together."
+  }
+]

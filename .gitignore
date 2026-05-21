@@ -1,0 +1,6 @@
+dist/
+screenshots/
+src/assets/
+node_modules/
+.DS_Store
+*.log

@@ -1,0 +1,114 @@
+[
+  {
+    "id": "beginner-journey",
+    "bookNumber": 1,
+    "series": "Hiligaynon 101",
+    "title": "Hiligaynon 101",
+    "subtitle": "A Beginner's Journey to Ilonggo",
+    "shortTitle": "A Beginner's Journey to Ilonggo",
+    "audience": "Complete beginners, heritage learners and family-connected learners",
+    "summary": "A practical first step into Hiligaynon with beginner-friendly lessons, greetings, everyday basics and guided practice.",
+    "seoDescription": "Learn Hiligaynon from the beginning with Hiligaynon 101: A Beginner's Journey to Ilonggo by Chanelle Ramos.",
+    "features": [
+      "Core sounds, spelling patterns and everyday basics",
+      "Greetings, politeness, numbers and simple sentence building",
+      "Guided practice for complete beginners"
+    ],
+    "featuredEditionId": "beginner-second",
+    "editions": [
+      {
+        "id": "beginner-first",
+        "label": "First Edition",
+        "asin": "B0CVNQ9192",
+        "amazonAsin": "B0CVNQ9192",
+        "amazonAuAsin": "B0CVNQ9192",
+        "format": "Amazon listings",
+        "amazonUrl": "https://amzn.to/4ujalZO",
+        "amazonAuUrl": "https://amzn.to/4do9gtS",
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0CVNQ9192.01._SCLZZZZZZZ_SX500_.jpg"
+      },
+      {
+        "id": "beginner-second",
+        "label": "Second Edition",
+        "asin": "B0GT5SBYFT",
+        "amazonAsin": "B0GT5SBYFT",
+        "amazonAuAsin": "B0GT8GJPT8",
+        "format": "Amazon listings",
+        "amazonUrl": "https://amzn.to/4dnSknb",
+        "amazonAuUrl": "https://amzn.to/4nEFGDX",
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0GT5SBYFT.01._SCLZZZZZZZ_SX500_.jpg"
+      }
+    ]
+  },
+  {
+    "id": "practical-conversations",
+    "bookNumber": 2,
+    "series": "Hiligaynon 101",
+    "title": "Hiligaynon 101",
+    "subtitle": "Practical Conversations for Everyday Life",
+    "shortTitle": "Practical Conversations for Everyday Life",
+    "audience": "Learners ready to practise useful everyday dialogue",
+    "summary": "Conversation-focused Hiligaynon practice for family, home, travel, shopping, dining and everyday situations.",
+    "seoDescription": "Practise everyday Ilonggo dialogue with Hiligaynon 101: Practical Conversations for Everyday Life by Chanelle Ramos.",
+    "features": [
+      "Scenario-based dialogues for real situations",
+      "Polite everyday expressions and useful responses",
+      "A natural follow-on from the beginner book"
+    ],
+    "featuredEditionId": "conversations-second",
+    "editions": [
+      {
+        "id": "conversations-first",
+        "label": "First Edition",
+        "asin": "B0F3CPBSK5",
+        "amazonAsin": "B0F3CPBSK5",
+        "amazonAuAsin": "B0F3CPBSK5",
+        "format": "Amazon listings",
+        "amazonUrl": "https://amzn.to/42J5FjV",
+        "amazonAuUrl": "https://amzn.to/43n7Mdk",
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0F3CPBSK5.01._SCLZZZZZZZ_SX500_.jpg"
+      },
+      {
+        "id": "conversations-second",
+        "label": "Second Edition",
+        "asin": "B0GT5TTQWS",
+        "amazonAsin": "B0GT5TTQWS",
+        "amazonAuAsin": "B0GT8R2LMB",
+        "format": "Amazon listings",
+        "amazonUrl": "https://amzn.to/4ukPxRF",
+        "amazonAuUrl": "https://amzn.to/4dCO6qC",
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0GT5TTQWS.01._SCLZZZZZZZ_SX500_.jpg"
+      }
+    ]
+  },
+  {
+    "id": "kids-first-words",
+    "bookNumber": 1,
+    "series": "Hiligaynon 101 Kids",
+    "title": "Hiligaynon 101 Kids",
+    "subtitle": "My First Words Colouring Book",
+    "shortTitle": "My First Words Colouring Book",
+    "audience": "Children ages 3-6 with an adult helper",
+    "summary": "A gentle first words colouring book that helps children hear, colour and repeat simple Hiligaynon words with family.",
+    "seoDescription": "A Hiligaynon colouring book for kids ages 3-6, designed for family-led first word practice.",
+    "features": [
+      "First words, family words and home words",
+      "Large colouring pages and mini activities",
+      "Gentle repetition for children and families"
+    ],
+    "featuredEditionId": "kids-current",
+    "editions": [
+      {
+        "id": "kids-current",
+        "label": "Current Edition",
+        "asin": "B0H266YQC6",
+        "amazonAsin": "B0H266YQC6",
+        "amazonAuAsin": "B0H266YQC6",
+        "format": "Amazon listings",
+        "amazonUrl": "https://amzn.to/4dnSj2B",
+        "amazonAuUrl": "https://amzn.to/4dTLAO2",
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0H266YQC6.01._SCLZZZZZZZ_SX500_.jpg"
+      }
+    ]
+  }
+]
