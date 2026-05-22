@@ -325,7 +325,7 @@ function renderPage(site, books, words, faq) {
         <div class="wrap">
           <div class="section-header">
             <h2>Check the edition before you buy.</h2>
-            <p>The adult books have first and second editions. Use the book cards above for Amazon and Amazon AU links, and check the ASINs below if you need to confirm the exact listing.</p>
+            <p>The adult books have first and second editions, with paperback and ebook versions available through Amazon. Use the book cards above for Amazon and Amazon AU links, and check the ASINs below if you need to confirm the exact listing.</p>
           </div>
           <div class="approach-grid">
             ${books
