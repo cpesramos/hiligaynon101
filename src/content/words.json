@@ -1,38 +1,68 @@
 [
   {
-    "word": "IDO",
-    "translation": "Dog",
-    "theme": "Animals",
-    "prompt": "Point to a dog, say ido, then say dog together."
-  },
-  {
-    "word": "KURING",
-    "translation": "Cat",
-    "theme": "Animals",
-    "prompt": "Look for a cat in a book, toy box or picture."
-  },
-  {
-    "word": "MANGGA",
-    "translation": "Mango",
-    "theme": "Food",
-    "prompt": "Say mangga before snack time or while colouring fruit."
-  },
-  {
-    "word": "KAN-ON",
-    "translation": "Rice",
-    "theme": "Food",
-    "prompt": "Use the word during a family meal."
-  },
-  {
-    "word": "ULAN",
-    "translation": "Rain",
+    "word": "ADLAW",
+    "translation": "Sun",
     "theme": "Nature",
-    "prompt": "Say ulan when looking out the window on a rainy day."
+    "prompt": "Colour the sun, say adlaw, then point to the sun outside."
   },
   {
-    "word": "KAHOY",
-    "translation": "Tree",
-    "theme": "Nature",
-    "prompt": "Point to a tree outside and repeat kahoy together."
+    "word": "BALAY",
+    "translation": "House",
+    "theme": "Home",
+    "prompt": "Colour the house and say balay when you get home."
+  },
+  {
+    "word": "TUBIG",
+    "translation": "Water",
+    "theme": "Home",
+    "prompt": "Say tubig together when pouring a drink of water."
+  },
+  {
+    "word": "LIBRO",
+    "translation": "Book",
+    "theme": "Learning",
+    "prompt": "Open a book and say libro before reading together."
+  },
+  {
+    "word": "BOLA",
+    "translation": "Ball",
+    "theme": "Play",
+    "prompt": "Roll a ball, say bola, then pass it back and forth."
+  },
+  {
+    "word": "HAMPANGANAN",
+    "translation": "Toy",
+    "theme": "Play",
+    "prompt": "Pick up a favourite toy and say hampanganan before play."
+  },
+  {
+    "word": "PAMILYA",
+    "translation": "Family",
+    "theme": "Family",
+    "prompt": "Point to a family photo and say pamilya together."
+  },
+  {
+    "word": "NANAY",
+    "translation": "Mother",
+    "theme": "Family",
+    "prompt": "Say nanay when looking at or talking about mother."
+  },
+  {
+    "word": "TATAY",
+    "translation": "Father",
+    "theme": "Family",
+    "prompt": "Say tatay when looking at or talking about father."
+  },
+  {
+    "word": "LAMESA",
+    "translation": "Table",
+    "theme": "Home",
+    "prompt": "Touch the table at home and say lamesa."
+  },
+  {
+    "word": "TASA",
+    "translation": "Cup",
+    "theme": "Home",
+    "prompt": "Hold a cup at snack time and say tasa together."
   }
 ]

@@ -29,9 +29,10 @@ function jsonLdScript(value) {
 }
 
 function metaTags(site) {
-  const title = `${site.name} | ${site.tagline}`;
+  const title = site.seoTitle || `${site.name} | ${site.tagline}`;
   const url = absoluteUrl(site, "/");
   const image = absoluteAssetUrl(site, site.socialImage);
+  const keywords = Array.isArray(site.keywords) ? site.keywords.join(", ") : "";
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -40,15 +41,20 @@ function metaTags(site) {
         "@id": `${siteOrigin(site)}/#organization`,
         name: site.name,
         url,
-        founder: site.author
+        founder: {
+          "@type": "Person",
+          name: site.author
+        }
       },
       {
         "@type": "WebSite",
         "@id": `${siteOrigin(site)}/#website`,
         name: site.name,
+        alternateName: ["Ilonggo 101", "Hiligaynon 101 Books"],
         url,
         description: site.description,
         inLanguage: site.language,
+        keywords,
         publisher: { "@id": `${siteOrigin(site)}/#organization` }
       },
       {
@@ -58,6 +64,13 @@ function metaTags(site) {
         name: site.name,
         description: site.description,
         isPartOf: { "@id": `${siteOrigin(site)}/#website` },
+        about: [
+          "Hiligaynon language learning",
+          "Ilonggo language learning",
+          "Hiligaynon books for beginners",
+          "Hiligaynon books for kids"
+        ],
+        keywords,
         inLanguage: site.language
       }
     ]
@@ -66,19 +79,23 @@ function metaTags(site) {
   return `
     <title>${escapeHtml(title)}</title>
     <meta name="description" content="${attr(site.description)}">
+    ${keywords ? `<meta name="keywords" content="${attr(keywords)}">` : ""}
     <meta name="robots" content="index,follow,max-image-preview:large">
     <link rel="canonical" href="${attr(url)}">
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <meta property="og:locale" content="en_AU">
     <meta property="og:site_name" content="${attr(site.name)}">
     <meta property="og:title" content="${attr(title)}">
     <meta property="og:description" content="${attr(site.description)}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="${attr(url)}">
     <meta property="og:image" content="${attr(image)}">
+    <meta property="og:image:alt" content="${attr(`${site.name} book series by ${site.author}`)}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${attr(title)}">
     <meta name="twitter:description" content="${attr(site.description)}">
     <meta name="twitter:image" content="${attr(image)}">
+    <meta name="twitter:image:alt" content="${attr(`${site.name} book series by ${site.author}`)}">
     ${jsonLdScript(structuredData)}
   `;
 }
@@ -105,13 +122,14 @@ function featuredEdition(book) {
 
 function renderBookCard(book) {
   const edition = featuredEdition(book);
+  const statusText = book.series === "Hiligaynon 101 Kids" ? "Hiligaynon 101 Kids" : `${book.series} Book ${book.bookNumber}`;
   return `
     <article class="book-card">
       <div class="book-visual">
         <img class="book-cover" src="${attr(edition.image)}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover from Amazon`)}" loading="lazy">
       </div>
       <div class="book-body">
-        <span class="status">${escapeHtml(book.series)} Book ${escapeHtml(book.bookNumber)}</span>
+        <span class="status">${escapeHtml(statusText)}</span>
         <div>
           <h3>${escapeHtml(book.title)}</h3>
           <p class="book-subtitle">${escapeHtml(book.subtitle)}</p>
@@ -162,31 +180,79 @@ function renderFaqItem(item) {
 }
 
 function bookSchema(site, books) {
+  const offerFor = (edition, url, market) => ({
+    "@type": "Offer",
+    url,
+    availability: "https://schema.org/InStock",
+    itemCondition: "https://schema.org/NewCondition",
+    seller: {
+      "@type": "Organization",
+      name: market
+    }
+  });
+
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
+    name: "Hiligaynon 101 book series",
+    description: site.description,
     itemListElement: books.map((book, index) => ({
       "@type": "ListItem",
       position: index + 1,
       item: {
         "@type": "Book",
         name: `${book.title}: ${book.subtitle}`,
+        alternateName: [`${book.shortTitle} by ${site.author}`, `${book.series} ${book.bookNumber}`],
         author: {
           "@type": "Person",
           name: site.author
         },
+        publisher: {
+          "@id": `${siteOrigin(site)}/#organization`
+        },
+        inLanguage: site.language,
+        genre: ["Language learning", "Hiligaynon", "Ilonggo"],
+        keywords: [book.series, book.shortTitle, "Hiligaynon", "Ilonggo", "Chanelle Ramos"].join(", "),
         audience: book.audience,
         image: book.editions.map((edition) => edition.image),
         description: book.seoDescription || book.summary,
         workExample: book.editions.map((edition) => ({
           "@type": "Book",
           name: `${book.title}: ${book.subtitle} - ${edition.label}`,
-          identifier: edition.amazonAsin,
+          identifier: [
+            {
+              "@type": "PropertyValue",
+              propertyID: "Amazon ASIN",
+              value: edition.amazonAsin
+            },
+            {
+              "@type": "PropertyValue",
+              propertyID: "Amazon AU ASIN",
+              value: edition.amazonAuAsin
+            }
+          ],
           image: edition.image,
           url: edition.amazonUrl,
-          sameAs: [edition.amazonUrl, edition.amazonAuUrl]
+          sameAs: [edition.amazonUrl, edition.amazonAuUrl],
+          offers: [offerFor(edition, edition.amazonUrl, "Amazon"), offerFor(edition, edition.amazonAuUrl, "Amazon AU")]
         }))
       }
+    }))
+  };
+}
+
+function wordSchema(site, words) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    name: "Sample Hiligaynon first words for kids",
+    description: "Child-friendly Hiligaynon first words featured on the Hiligaynon 101 website.",
+    inLanguage: site.language,
+    hasDefinedTerm: words.map((word) => ({
+      "@type": "DefinedTerm",
+      name: word.word,
+      termCode: word.word,
+      description: `${word.word} means ${word.translation}. ${word.prompt}`
     }))
   };
 }
@@ -218,7 +284,8 @@ function renderPage(site, books, words, faq) {
     ${metaTags(site)}
     ${jsonLdScript(bookSchema(site, books))}
     ${jsonLdScript(faqSchema(faq))}
-    <link rel="stylesheet" href="/styles.css?v=20260521-amazon-images">
+    ${jsonLdScript(wordSchema(site, words))}
+    <link rel="stylesheet" href="/styles.css?v=20260522-words-deploy">
   </head>
   <body>
     ${renderNav(site)}
@@ -245,8 +312,8 @@ function renderPage(site, books, words, faq) {
       <section class="section surface" id="books">
         <div class="wrap">
           <div class="section-header">
-            <h2>Start with the right Hiligaynon book.</h2>
-            <p>Each title is structured as a reusable product record with edition-level Amazon links and images, so future books can be added without redesigning the site.</p>
+            <h2>Choose a Hiligaynon 101 book.</h2>
+            <p>Start with beginner Ilonggo lessons, practise everyday conversations, or introduce first Hiligaynon words through the kids colouring book.</p>
           </div>
           <div class="book-grid">
             ${books.map(renderBookCard).join("")}
@@ -257,8 +324,8 @@ function renderPage(site, books, words, faq) {
       <section class="section" id="editions">
         <div class="wrap">
           <div class="section-header">
-            <h2>Amazon editions are kept separate.</h2>
-            <p>The adult books currently have first and second edition listings for Amazon and Amazon AU. The kids colouring book has one current edition with both markets linked.</p>
+            <h2>Check the edition before you buy.</h2>
+            <p>The adult books have first and second editions. Use the book cards above for Amazon and Amazon AU links, and check the ASINs below if you need to confirm the exact listing.</p>
           </div>
           <div class="approach-grid">
             ${books
@@ -281,9 +348,9 @@ function renderPage(site, books, words, faq) {
         <div class="wrap kids-band">
           <div class="kids-copy">
             <p class="eyebrow">Hiligaynon 101 Kids</p>
-            <h2>Family-led language exposure through colouring and play.</h2>
-            <p>The kids series is designed for ages 3-6 and works best with an adult helper. Children colour familiar pictures while parents, grandparents or carers say the words with them.</p>
-            <p>The current colouring book focuses on first words children can see around home and practise casually with family.</p>
+            <h2>First Hiligaynon words for ages 3-6.</h2>
+            <p>Hiligaynon 101 Kids: My First Words Colouring Book helps children connect familiar pictures with simple Hiligaynon words and English meanings.</p>
+            <p>It is built for parent, grandparent and carer-led practice: colour the picture, say the word aloud, then reuse it naturally around home.</p>
             <div class="section-actions">
               <a class="button" href="${attr(kidsEdition?.amazonUrl || "#books")}">Amazon</a>
               <a class="button secondary" href="${attr(kidsEdition?.amazonAuUrl || "#books")}">Amazon AU</a>
@@ -299,8 +366,8 @@ function renderPage(site, books, words, faq) {
       <section class="section" id="words">
         <div class="wrap">
           <div class="section-header">
-            <h2>Simple words children can recognise and repeat.</h2>
-            <p>Sample Hiligaynon words for family-led practice. These also support search intent around Hiligaynon for kids and Ilonggo first words.</p>
+            <h2>Simple words children can colour and repeat.</h2>
+            <p>These child-friendly Hiligaynon words match the early vocabulary style shown on the kids book listing, with familiar objects children can colour, see and repeat.</p>
           </div>
           <div class="words-grid">
             ${words.map(renderWordCard).join("")}
@@ -311,7 +378,7 @@ function renderPage(site, books, words, faq) {
       <section class="section surface" id="approach">
         <div class="wrap">
           <div class="section-header">
-            <h2>A practical, respectful way to begin.</h2>
+            <h2>A gentle way to learn together.</h2>
             <p>The series keeps the pressure low and the language usable, especially for families reconnecting with Hiligaynon in everyday life.</p>
           </div>
           <div class="approach-grid">
@@ -334,7 +401,7 @@ function renderPage(site, books, words, faq) {
       <section class="section">
         <div class="wrap">
           <div class="section-header">
-            <h2>Common questions.</h2>
+            <h2>Common questions about Hiligaynon 101.</h2>
             <p>Search-friendly answers for people comparing Hiligaynon, Ilonggo and beginner learning options.</p>
           </div>
           <div class="faq-list">
@@ -347,8 +414,8 @@ function renderPage(site, books, words, faq) {
         <div class="wrap">
           <div class="cta-band">
             <div>
-              <h2>Built for hiligaynon101.com.</h2>
-              <p>This first website version gives the series a clean home for search, book discovery, Amazon edition links and future Hiligaynon 101 releases.</p>
+              <h2>Explore the Hiligaynon 101 series.</h2>
+              <p>This website gives the books a clear home for search, book discovery and Amazon edition links.</p>
             </div>
             <a class="button secondary" href="#books">Review the series</a>
           </div>

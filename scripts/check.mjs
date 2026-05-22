@@ -32,6 +32,16 @@ function findAll(pattern, text) {
 }
 
 async function check() {
+  const wranglerConfigPath = path.join(root, "wrangler.jsonc");
+  if (!existsSync(wranglerConfigPath)) {
+    throw new Error("Missing wrangler.jsonc for Cloudflare Workers assets deployment.");
+  }
+
+  const wranglerConfig = await readFile(wranglerConfigPath, "utf8");
+  if (!/"directory"\s*:\s*"(?:\.\/)?dist"/.test(wranglerConfig)) {
+    throw new Error("wrangler.jsonc must point Cloudflare Workers assets at dist.");
+  }
+
   if (!existsSync(dist)) {
     throw new Error("dist/ does not exist. Run npm run build first.");
   }
@@ -54,9 +64,12 @@ async function check() {
   for (const needle of [
     "<title>",
     "name=\"description\"",
+    "name=\"keywords\"",
     "rel=\"canonical\"",
     "property=\"og:image\"",
     "application/ld+json",
+    "DefinedTermSet",
+    "Offer",
     "Hiligaynon 101 Kids",
     "Chanelle Ramos",
     "FAQPage",
@@ -66,6 +79,17 @@ async function check() {
     "B0GT5TTQWS",
     "B0H266YQC6",
     "Amazon AU",
+    "ADLAW",
+    "BALAY",
+    "TUBIG",
+    "LIBRO",
+    "BOLA",
+    "HAMPANGANAN",
+    "PAMILYA",
+    "NANAY",
+    "TATAY",
+    "LAMESA",
+    "TASA",
     "https://amzn.to/4ujalZO",
     "https://amzn.to/4dTLAO2",
     "As an Amazon Associate"
@@ -75,7 +99,14 @@ async function check() {
     }
   }
 
-  for (const forbidden of ["TODO", "Lorem ipsum", "placeholder", "FIXME"]) {
+  for (const forbidden of [
+    "TODO",
+    "Lorem ipsum",
+    "placeholder",
+    "FIXME",
+    "reusable product record",
+    "future books can be added without redesigning the site"
+  ]) {
     if (allText.includes(forbidden)) {
       throw new Error(`Draft marker found: ${forbidden}`);
     }

@@ -142,6 +142,7 @@ a {
   color: var(--leaf);
   font-size: 0.82rem;
   font-weight: 900;
+  line-height: 1.25;
   text-transform: uppercase;
 }
 
@@ -263,6 +264,7 @@ h1 {
 
 .book-grid {
   display: grid;
+  align-items: stretch;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
@@ -270,6 +272,7 @@ h1 {
 .book-card {
   display: grid;
   grid-template-rows: auto 1fr;
+  height: 100%;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -279,20 +282,25 @@ h1 {
 
 .book-visual {
   display: grid;
-  min-height: 330px;
+  height: 350px;
   place-items: center;
   padding: 22px;
   background: #f1e6d4;
 }
 
 .book-cover {
-  width: min(220px, 82%);
+  width: auto;
+  max-width: min(230px, 82%);
+  max-height: 300px;
   border-radius: 4px;
   box-shadow: 0 18px 34px rgba(23, 33, 58, 0.26);
+  object-fit: contain;
 }
 
 .book-body {
-  display: grid;
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
   gap: 14px;
   padding: 22px;
 }
@@ -339,14 +347,15 @@ h1 {
 .edition-list {
   display: grid;
   gap: 8px;
-  margin-top: 2px;
+  margin-top: auto;
+  padding-top: 4px;
 }
 
 .edition-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(82px, 1fr) minmax(206px, auto);
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 7px;
   padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -355,28 +364,29 @@ h1 {
 
 .edition-label {
   color: var(--ink);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   font-weight: 900;
+  line-height: 1.15;
 }
 
 .edition-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(98px, 1fr));
   gap: 8px;
 }
 
 .edition-button {
   display: inline-flex;
+  width: 100%;
   min-height: 34px;
   align-items: center;
   justify-content: center;
-  padding: 7px 10px;
+  padding: 7px 8px;
   border: 1px solid var(--ink);
   border-radius: 8px;
   background: var(--ink);
   color: #fffaf0;
-  font-size: 0.84rem;
+  font-size: 0.8rem;
   font-weight: 900;
   line-height: 1;
   text-decoration: none;
@@ -498,6 +508,7 @@ h1 {
 }
 
 .word-card h3 {
+  overflow-wrap: anywhere;
   margin-bottom: 4px;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 2.05rem;
@@ -663,15 +674,15 @@ h1 {
 
   .hero-inner {
     align-items: start;
-    width: calc(100vw - 32px);
-    max-width: calc(100vw - 32px);
+    width: calc(100% - 32px);
+    max-width: calc(100% - 32px);
     overflow: hidden;
     padding: 56px 0 250px;
   }
 
   .hero-copy {
-    width: calc(100vw - 32px);
-    max-width: calc(100vw - 32px);
+    width: 100%;
+    max-width: 100%;
   }
 
   h1 {
@@ -681,6 +692,7 @@ h1 {
   }
 
   .hero-copy .lede {
+    width: 100%;
     max-width: 100%;
     font-size: 1.08rem;
     overflow-wrap: break-word;
@@ -707,21 +719,23 @@ h1 {
   }
 
   .book-visual {
-    min-height: 280px;
+    height: 300px;
   }
 
   .edition-row {
     align-items: flex-start;
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .edition-actions {
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 100%;
+    gap: 8px;
   }
 
   .edition-button {
-    flex: 1 1 120px;
+    width: 100%;
   }
 
   .cta-band {
