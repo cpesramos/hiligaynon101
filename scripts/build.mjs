@@ -312,7 +312,7 @@ function renderPage(site, books, words, faq) {
       <section class="section surface" id="books">
         <div class="wrap">
           <div class="section-header">
-            <h2>Hiligaynon books for beginners, conversations and kids.</h2>
+            <h2>Choose a Hiligaynon 101 book.</h2>
             <p>Start with beginner Ilonggo lessons, practise everyday conversations, or introduce first Hiligaynon words through the kids colouring book.</p>
           </div>
           <div class="book-grid">
@@ -324,8 +324,8 @@ function renderPage(site, books, words, faq) {
       <section class="section" id="editions">
         <div class="wrap">
           <div class="section-header">
-            <h2>Amazon editions are kept separate.</h2>
-            <p>The adult books currently have first and second edition listings for Amazon and Amazon AU. The kids colouring book has one current edition with both markets linked.</p>
+            <h2>Check the edition before you buy.</h2>
+            <p>The adult books have first and second editions. Use the book cards above for Amazon and Amazon AU links, and check the ASINs below if you need to confirm the exact listing.</p>
           </div>
           <div class="approach-grid">
             ${books
@@ -348,7 +348,7 @@ function renderPage(site, books, words, faq) {
         <div class="wrap kids-band">
           <div class="kids-copy">
             <p class="eyebrow">Hiligaynon 101 Kids</p>
-            <h2>A first words colouring book for ages 3-6.</h2>
+            <h2>First Hiligaynon words for ages 3-6.</h2>
             <p>Hiligaynon 101 Kids: My First Words Colouring Book helps children connect familiar pictures with simple Hiligaynon words and English meanings.</p>
             <p>It is built for parent, grandparent and carer-led practice: colour the picture, say the word aloud, then reuse it naturally around home.</p>
             <div class="section-actions">
@@ -366,7 +366,7 @@ function renderPage(site, books, words, faq) {
       <section class="section" id="words">
         <div class="wrap">
           <div class="section-header">
-            <h2>Sample first words from the kids colouring book.</h2>
+            <h2>Simple words children can colour and repeat.</h2>
             <p>These child-friendly Hiligaynon words match the early vocabulary style shown on the kids book listing, with familiar objects children can colour, see and repeat.</p>
           </div>
           <div class="words-grid">
@@ -378,7 +378,7 @@ function renderPage(site, books, words, faq) {
       <section class="section surface" id="approach">
         <div class="wrap">
           <div class="section-header">
-            <h2>A practical, respectful way to begin.</h2>
+            <h2>A gentle way to learn together.</h2>
             <p>The series keeps the pressure low and the language usable, especially for families reconnecting with Hiligaynon in everyday life.</p>
           </div>
           <div class="approach-grid">
@@ -401,7 +401,7 @@ function renderPage(site, books, words, faq) {
       <section class="section">
         <div class="wrap">
           <div class="section-header">
-            <h2>Common questions.</h2>
+            <h2>Common questions about Hiligaynon 101.</h2>
             <p>Search-friendly answers for people comparing Hiligaynon, Ilonggo and beginner learning options.</p>
           </div>
           <div class="faq-list">
@@ -414,8 +414,8 @@ function renderPage(site, books, words, faq) {
         <div class="wrap">
           <div class="cta-band">
             <div>
-              <h2>Built for hiligaynon101.com.</h2>
-              <p>This first website version gives the series a clean home for search, book discovery, Amazon edition links and future Hiligaynon 101 releases.</p>
+              <h2>Explore the Hiligaynon 101 series.</h2>
+              <p>This website gives the books a clear home for search, book discovery and Amazon edition links.</p>
             </div>
             <a class="button secondary" href="#books">Review the series</a>
           </div>
