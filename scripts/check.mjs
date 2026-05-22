@@ -38,8 +38,8 @@ async function check() {
   }
 
   const wranglerConfig = await readFile(wranglerConfigPath, "utf8");
-  if (!wranglerConfig.includes("\"directory\": \"./dist\"")) {
-    throw new Error("wrangler.jsonc must point Cloudflare Workers assets at ./dist.");
+  if (!/"directory"\s*:\s*"(?:\.\/)?dist"/.test(wranglerConfig)) {
+    throw new Error("wrangler.jsonc must point Cloudflare Workers assets at dist.");
   }
 
   if (!existsSync(dist)) {
@@ -99,7 +99,14 @@ async function check() {
     }
   }
 
-  for (const forbidden of ["TODO", "Lorem ipsum", "placeholder", "FIXME"]) {
+  for (const forbidden of [
+    "TODO",
+    "Lorem ipsum",
+    "placeholder",
+    "FIXME",
+    "reusable product record",
+    "future books can be added without redesigning the site"
+  ]) {
     if (allText.includes(forbidden)) {
       throw new Error(`Draft marker found: ${forbidden}`);
     }
