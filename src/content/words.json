@@ -30,12 +30,6 @@
     "prompt": "Roll a ball, say bola, then pass it back and forth."
   },
   {
-    "word": "HAMPANGANAN",
-    "translation": "Toy",
-    "theme": "Play",
-    "prompt": "Pick up a favourite toy and say hampanganan before play."
-  },
-  {
     "word": "PAMILYA",
     "translation": "Family",
     "theme": "Family",
@@ -52,12 +46,6 @@
     "translation": "Father",
     "theme": "Family",
     "prompt": "Say tatay when looking at or talking about father."
-  },
-  {
-    "word": "LAMESA",
-    "translation": "Table",
-    "theme": "Home",
-    "prompt": "Touch the table at home and say lamesa."
   },
   {
     "word": "TASA",

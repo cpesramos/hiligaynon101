@@ -87,11 +87,9 @@ async function check() {
     "TUBIG",
     "LIBRO",
     "BOLA",
-    "HAMPANGANAN",
     "PAMILYA",
     "NANAY",
     "TATAY",
-    "LAMESA",
     "TASA",
     "https://amzn.to/4ujalZO",
     "https://amzn.to/4dTLAO2",
@@ -110,11 +108,20 @@ async function check() {
     "reusable product record",
     "future books can be added without redesigning the site",
     "Check the edition before you buy",
-    "id=\"editions\""
+    "id=\"editions\"",
+    "HAMPANGANAN",
+    "hampanganan",
+    "LAMESA",
+    "lamesa"
   ]) {
     if (allText.includes(forbidden)) {
       throw new Error(`Draft marker found: ${forbidden}`);
     }
+  }
+
+  const wordCardCount = (html.match(/class="word-card"/g) || []).length;
+  if (wordCardCount !== 9) {
+    throw new Error(`Expected exactly 9 sample word cards for a 3x3 grid, found ${wordCardCount}.`);
   }
 
   const localRefs = [
