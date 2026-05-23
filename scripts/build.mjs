@@ -321,25 +321,31 @@ function renderPage(site, books, words, faq) {
         </div>
       </section>
 
-      <section class="section" id="editions">
+      <section class="section" id="author">
         <div class="wrap">
           <div class="section-header">
-            <h2>Check the edition before you buy.</h2>
-            <p>The adult books have first and second editions, with paperback and ebook versions available through Amazon. Use the book cards above for Amazon and Amazon AU links, and check the ASINs below if you need to confirm the exact listing.</p>
+            <div>
+              <p class="eyebrow">From the author</p>
+              <h2>Why Chanelle created Hiligaynon 101.</h2>
+            </div>
+            <div class="author-copy">
+              <p>Chanelle Ramos is a native of Bacolod City in the Philippines and is now based in Australia. After moving to Australia at 13, she kept Hiligaynon close as an enduring connection to home, family and culture.</p>
+              <p>The series began when her wife wanted to learn the language and clear beginner-friendly resources were difficult to find. Hiligaynon 101 was created to make the first steps practical, gentle and culturally connected.</p>
+            </div>
           </div>
           <div class="approach-grid">
-            ${books
-              .map(
-                (book) => `
-                  <article class="approach-item">
-                    <h3>${escapeHtml(book.shortTitle)}</h3>
-                    <p>${book.editions
-                      .map((edition) => `${edition.label}: Amazon ${edition.amazonAsin}, Amazon AU ${edition.amazonAuAsin}`)
-                      .join(" | ")}</p>
-                  </article>
-                `
-              )
-              .join("")}
+            <article class="approach-item">
+              <h3>Heritage connection</h3>
+              <p>The books are shaped by a lived connection to Hiligaynon and the experience of carrying language across countries and generations.</p>
+            </article>
+            <article class="approach-item">
+              <h3>Beginner clarity</h3>
+              <p>They focus on approachable lessons, everyday words and practical conversations for learners starting without a clear path.</p>
+            </article>
+            <article class="approach-item">
+              <h3>Language as a bridge</h3>
+              <p>Hiligaynon 101 treats language as a way to connect people, families and cultures, not just a list of words to memorise.</p>
+            </article>
           </div>
         </div>
       </section>

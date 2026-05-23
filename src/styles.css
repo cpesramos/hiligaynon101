@@ -262,6 +262,10 @@ h1 {
   font-size: 1.05rem;
 }
 
+.author-copy p + p {
+  margin-top: 14px;
+}
+
 .book-grid {
   display: grid;
   align-items: stretch;

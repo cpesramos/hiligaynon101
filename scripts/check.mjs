@@ -79,6 +79,9 @@ async function check() {
     "B0GT5TTQWS",
     "B0H266YQC6",
     "Amazon AU",
+    "From the author",
+    "Why Chanelle created Hiligaynon 101",
+    "Bacolod City",
     "ADLAW",
     "BALAY",
     "TUBIG",
@@ -105,7 +108,9 @@ async function check() {
     "placeholder",
     "FIXME",
     "reusable product record",
-    "future books can be added without redesigning the site"
+    "future books can be added without redesigning the site",
+    "Check the edition before you buy",
+    "id=\"editions\""
   ]) {
     if (allText.includes(forbidden)) {
       throw new Error(`Draft marker found: ${forbidden}`);
