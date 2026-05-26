@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -5,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const src = path.join(root, "src");
 const dist = path.join(root, "dist");
+const assets = path.join(src, "assets");
 
 const readJson = async (...parts) => JSON.parse(await readFile(path.join(src, ...parts), "utf8"));
 
@@ -120,11 +122,22 @@ function featuredEdition(book) {
   return book.editions.find((edition) => edition.id === book.featuredEditionId) || book.editions[0];
 }
 
+function orderedEditions(book) {
+  const featured = featuredEdition(book);
+  return [featured, ...book.editions.filter((edition) => edition.id !== featured.id)];
+}
+
+function renderAffiliateButton(book, edition, market, url, variant = "") {
+  const label = market === "Amazon AU" ? "Amazon AU" : "Amazon US";
+  const variantClass = variant ? ` ${variant}` : "";
+  return `<a class="edition-button${variantClass}" href="${attr(url)}" rel="sponsored" aria-label="${attr(`${label} listing for ${book.title}: ${book.subtitle}, ${edition.label}`)}">${escapeHtml(label)}</a>`;
+}
+
 function renderBookCard(book) {
   const edition = featuredEdition(book);
   const statusText = book.series === "Hiligaynon 101 Kids" ? "Hiligaynon 101 Kids" : `${book.series} Book ${book.bookNumber}`;
   return `
-    <article class="book-card">
+    <article class="book-card" id="${attr(book.id)}">
       <div class="book-visual">
         <img class="book-cover" src="${attr(edition.image)}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover from Amazon`)}" loading="lazy">
       </div>
@@ -140,14 +153,17 @@ function renderBookCard(book) {
           ${book.features.map((feature) => `<li>${escapeHtml(feature)}</li>`).join("")}
         </ul>
         <div class="edition-list" id="${attr(book.id)}-editions" aria-label="${attr(`${book.title}: ${book.subtitle} Amazon editions`)}">
-          ${book.editions
+          ${orderedEditions(book)
             .map(
               (item) => `
-                <div class="edition-row">
-                  <span class="edition-label">${escapeHtml(item.label)}</span>
+                <div class="edition-row${item.id === edition.id ? " recommended-edition" : ""}">
+                  <span class="edition-label">
+                    ${escapeHtml(item.label)}
+                    <span class="edition-note">${item.id === edition.id ? "Recommended for most buyers" : "Earlier edition"}</span>
+                  </span>
                   <div class="edition-actions">
-                    <a class="edition-button" href="${attr(item.amazonUrl)}">Amazon</a>
-                    <a class="edition-button secondary" href="${attr(item.amazonAuUrl)}">Amazon AU</a>
+                    ${renderAffiliateButton(book, item, "Amazon US", item.amazonUrl)}
+                    ${renderAffiliateButton(book, item, "Amazon AU", item.amazonAuUrl, "secondary")}
                   </div>
                 </div>
               `
@@ -156,6 +172,46 @@ function renderBookCard(book) {
         </div>
       </div>
     </article>
+  `;
+}
+
+function renderBookChooser(books) {
+  const choices = [
+    {
+      label: "Adult beginner",
+      title: "Start with Book 1",
+      text: "Best first step for greetings, basics and beginner-friendly practice.",
+      book: books.find((book) => book.id === "beginner-journey")
+    },
+    {
+      label: "Ready to practise",
+      title: "Move to conversations",
+      text: "Use this after the first book when everyday dialogue matters most.",
+      book: books.find((book) => book.id === "practical-conversations")
+    },
+    {
+      label: "Child ages 3-6",
+      title: "Choose the kids book",
+      text: "First words, colouring and repeat-after-me practice with an adult helper.",
+      book: books.find((book) => book.id === "kids-first-words")
+    }
+  ];
+
+  return `
+    <div class="book-chooser" aria-label="Quick book chooser">
+      ${choices
+        .filter((choice) => choice.book)
+        .map(
+          (choice) => `
+            <a class="chooser-item" href="#${attr(choice.book.id)}">
+              <span>${escapeHtml(choice.label)}</span>
+              <strong>${escapeHtml(choice.title)}</strong>
+              <small>${escapeHtml(choice.text)}</small>
+            </a>
+          `
+        )
+        .join("")}
+    </div>
   `;
 }
 
@@ -295,9 +351,9 @@ function renderPage(site, books, words, faq) {
           <div class="hero-copy">
             <p class="eyebrow">Books for beginners, families and heritage learners</p>
             <h1 id="hero-title"><span class="title-line">Hiligaynon</span> <span class="title-line">101</span></h1>
-            <p class="lede">${escapeHtml(site.description)} Start with beginner lessons, continue into practical conversations, or help children meet first words through colouring and play.</p>
+            <p class="lede">Learn Hiligaynon, also known as Ilonggo, through beginner lessons, everyday conversations and first-word colouring books for kids.</p>
             <div class="hero-actions">
-              <a class="button" href="#books">Explore the books</a>
+              <a class="button" href="#books">Choose your book</a>
               <a class="button secondary" href="#words">Try sample words</a>
             </div>
             <div class="hero-proof" aria-label="Series highlights">
@@ -315,6 +371,7 @@ function renderPage(site, books, words, faq) {
             <h2>Choose a Hiligaynon 101 book.</h2>
             <p>Start with beginner Ilonggo lessons, practise everyday conversations, or introduce first Hiligaynon words through the kids colouring book.</p>
           </div>
+          ${renderBookChooser(books)}
           <div class="book-grid">
             ${books.map(renderBookCard).join("")}
           </div>
@@ -358,8 +415,8 @@ function renderPage(site, books, words, faq) {
             <p>Hiligaynon 101 Kids: My First Words Colouring Book helps children connect familiar pictures with simple Hiligaynon words and English meanings.</p>
             <p>It is built for parent, grandparent and carer-led practice: colour the picture, say the word aloud, then reuse it naturally around home.</p>
             <div class="section-actions">
-              <a class="button" href="${attr(kidsEdition?.amazonUrl || "#books")}">Amazon</a>
-              <a class="button secondary" href="${attr(kidsEdition?.amazonAuUrl || "#books")}">Amazon AU</a>
+              <a class="button" href="${attr(kidsEdition?.amazonUrl || "#books")}" rel="sponsored" aria-label="Amazon US listing for Hiligaynon 101 Kids: My First Words Colouring Book">Amazon US</a>
+              <a class="button secondary" href="${attr(kidsEdition?.amazonAuUrl || "#books")}" rel="sponsored" aria-label="Amazon AU listing for Hiligaynon 101 Kids: My First Words Colouring Book">Amazon AU</a>
               <a class="button secondary" href="#approach">Read the approach</a>
             </div>
           </div>
@@ -450,6 +507,9 @@ async function build() {
   await rm(dist, { recursive: true, force: true });
   await mkdir(dist, { recursive: true });
   await cp(path.join(src, "styles.css"), path.join(dist, "styles.css"));
+  if (existsSync(assets)) {
+    await cp(assets, path.join(dist, "assets"), { recursive: true });
+  }
   await writeFile(path.join(dist, "index.html"), renderPage(site, books, words, faq));
   await writeFile(
     path.join(dist, "sitemap.xml"),
