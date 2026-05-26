@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="#17213a" flood-opacity="0.22"/>
+    </filter>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f5b53f"/>
+      <stop offset="0.34" stop-color="#d65a4a"/>
+      <stop offset="0.68" stop-color="#2f7d5a"/>
+      <stop offset="1" stop-color="#3d73a8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#fff8e7"/>
+  <circle cx="1048" cy="86" r="72" fill="#f5b53f" opacity="0.18"/>
+  <circle cx="1110" cy="528" r="96" fill="#3d73a8" opacity="0.12"/>
+  <rect x="0" y="604" width="1200" height="26" fill="url(#accent)"/>
+
+  <g transform="translate(84 70)">
+    <rect x="0" y="0" width="58" height="58" rx="13" fill="#f5b53f" stroke="#17213a" stroke-width="4"/>
+    <text x="29" y="38" text-anchor="middle" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#17213a">H</text>
+    <text x="78" y="36" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#17213a">Hiligaynon 101</text>
+
+    <text x="0" y="158" font-family="Georgia, serif" font-size="70" font-weight="700" fill="#17213a">Learn Hiligaynon</text>
+    <text x="0" y="218" font-family="Georgia, serif" font-size="50" font-weight="700" fill="#17213a">also known as Ilonggo</text>
+    <text x="0" y="286" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="650" fill="#30384c">Beginner lessons, practical conversations</text>
+    <text x="0" y="326" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="650" fill="#30384c">and first words for kids.</text>
+    <text x="0" y="398" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#2f7d5a">Books by Chanelle Ramos</text>
+    <g transform="translate(0 436)" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" fill="#17213a">
+      <rect x="0" y="0" width="184" height="44" rx="22" fill="#ffffff" stroke="#ded6c7"/>
+      <text x="92" y="29" text-anchor="middle">Beginners</text>
+      <rect x="198" y="0" width="210" height="44" rx="22" fill="#ffffff" stroke="#ded6c7"/>
+      <text x="303" y="29" text-anchor="middle">Conversations</text>
+      <rect x="422" y="0" width="112" height="44" rx="22" fill="#ffffff" stroke="#ded6c7"/>
+      <text x="478" y="29" text-anchor="middle">Kids</text>
+    </g>
+  </g>
+
+  <g filter="url(#shadow)">
+    <g transform="translate(810 206) rotate(-7)">
+      <rect x="-10" y="-12" width="160" height="239" rx="8" fill="#ffffff" opacity="0.75"/>
+      <image href="cover-beginner-second.jpg" x="0" y="0" width="140" height="215" preserveAspectRatio="xMidYMid meet"/>
+    </g>
+    <g transform="translate(905 146) rotate(3)">
+      <rect x="-12" y="-14" width="194" height="294" rx="10" fill="#ffffff" opacity="0.82"/>
+      <image href="cover-conversations-second.jpg" x="0" y="0" width="170" height="266" preserveAspectRatio="xMidYMid meet"/>
+    </g>
+    <g transform="translate(1020 214) rotate(8)">
+      <rect x="-10" y="-12" width="160" height="239" rx="8" fill="#ffffff" opacity="0.78"/>
+      <image href="cover-kids-current.jpg" x="0" y="0" width="140" height="215" preserveAspectRatio="xMidYMid meet"/>
+    </g>
+  </g>
+</svg>

@@ -1,6 +1,12 @@
 dist/
 screenshots/
-src/assets/
+src/assets/*
+!src/assets/
+!src/assets/social-preview.svg
+!src/assets/social-preview.png
+!src/assets/cover-beginner-second.jpg
+!src/assets/cover-conversations-second.jpg
+!src/assets/cover-kids-current.jpg
 node_modules/
 .DS_Store
 *.log
