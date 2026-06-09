@@ -36,6 +36,7 @@
         "format": "Amazon listings",
         "amazonUrl": "https://amzn.to/4dnSknb",
         "amazonAuUrl": "https://amzn.to/4nEFGDX",
+        "localImage": "/assets/cover-beginner-second.jpg",
         "image": "https://images-na.ssl-images-amazon.com/images/P/B0GT5SBYFT.01._SCLZZZZZZZ_SX500_.jpg"
       }
     ]
@@ -77,6 +78,7 @@
         "format": "Amazon listings",
         "amazonUrl": "https://amzn.to/4ukPxRF",
         "amazonAuUrl": "https://amzn.to/4dCO6qC",
+        "localImage": "/assets/cover-conversations-second.jpg",
         "image": "https://images-na.ssl-images-amazon.com/images/P/B0GT5TTQWS.01._SCLZZZZZZZ_SX500_.jpg"
       }
     ]
@@ -107,6 +109,7 @@
         "format": "Amazon listings",
         "amazonUrl": "https://amzn.to/4dnSj2B",
         "amazonAuUrl": "https://amzn.to/4dTLAO2",
+        "localImage": "/assets/cover-kids-current.jpg",
         "image": "https://images-na.ssl-images-amazon.com/images/P/B0H266YQC6.01._SCLZZZZZZZ_SX500_.jpg"
       }
     ]
@@ -137,6 +140,7 @@
         "format": "Amazon listings",
         "amazonUrl": "https://amzn.to/4aBIkES",
         "amazonAuUrl": "https://amzn.to/4v1ZXpO",
+        "localImage": "/assets/cover-kids-animals-current.jpg",
         "image": "https://images-na.ssl-images-amazon.com/images/P/B0H4FVZPKC.01._SCLZZZZZZZ_SX500_.jpg"
       }
     ]

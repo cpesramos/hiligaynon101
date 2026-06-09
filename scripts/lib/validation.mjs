@@ -58,7 +58,7 @@ function validateSite(site, src, errors) {
   }
 }
 
-function validateBooks(books, errors) {
+function validateBooks(books, src, errors) {
   requireArray(books, "books", errors);
   if (!Array.isArray(books)) return;
 
@@ -96,6 +96,11 @@ function validateBooks(books, errors) {
           assert(isExternalUrl(edition[field]), `${editionPrefix}.${field} must be an absolute http(s) URL.`, errors);
         }
       }
+      if (isNonEmptyString(edition?.localImage)) {
+        assert(!isExternalUrl(edition.localImage), `${editionPrefix}.localImage must be a local asset path.`, errors);
+        const imagePath = path.join(src, edition.localImage.replace(/^\/+/, ""));
+        assert(existsSync(imagePath), `${editionPrefix}.localImage points to a missing local asset: ${edition.localImage}.`, errors);
+      }
     });
   });
 }
@@ -127,7 +132,7 @@ function validateFaq(faq, errors) {
 export function validateContent({ site, books, words, faq, src }) {
   const errors = [];
   validateSite(site, src, errors);
-  validateBooks(books, errors);
+  validateBooks(books, src, errors);
   validateWords(words, errors);
   validateFaq(faq, errors);
 

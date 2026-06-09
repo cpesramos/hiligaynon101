@@ -7,6 +7,7 @@ src/assets/*
 !src/assets/cover-beginner-second.jpg
 !src/assets/cover-conversations-second.jpg
 !src/assets/cover-kids-current.jpg
+!src/assets/cover-kids-animals-current.jpg
 node_modules/
 .DS_Store
 *.log
