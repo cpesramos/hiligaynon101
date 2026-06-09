@@ -30,27 +30,27 @@
     "prompt": "Roll a ball, say bola, then pass it back and forth."
   },
   {
-    "word": "PAMILYA",
-    "translation": "Family",
-    "theme": "Family",
-    "prompt": "Point to a family photo and say pamilya together."
-  },
-  {
-    "word": "NANAY",
-    "translation": "Mother",
-    "theme": "Family",
-    "prompt": "Say nanay when looking at or talking about mother."
-  },
-  {
-    "word": "TATAY",
-    "translation": "Father",
-    "theme": "Family",
-    "prompt": "Say tatay when looking at or talking about father."
-  },
-  {
     "word": "TASA",
     "translation": "Cup",
     "theme": "Home",
     "prompt": "Hold a cup at snack time and say tasa together."
+  },
+  {
+    "word": "KABAYO",
+    "translation": "Horse",
+    "theme": "Animals",
+    "prompt": "Colour the horse, say kabayo, then make a gentle galloping sound."
+  },
+  {
+    "word": "MANGGA",
+    "translation": "Mango",
+    "theme": "Food",
+    "prompt": "Point to a mango or fruit picture and say mangga together."
+  },
+  {
+    "word": "BULAN",
+    "translation": "Moon",
+    "theme": "Nature",
+    "prompt": "Colour the moon, say bulan, then look for the moon at night."
   }
 ]
