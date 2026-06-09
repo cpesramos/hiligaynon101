@@ -17,24 +17,58 @@ Hiligaynon 101 is intentionally simple, static and reviewable.
 flowchart TD
   A["src/data and src/content JSON"] --> B["scripts/build.mjs"]
   C["src/styles.css"] --> B
+  G["scripts/lib validation and render modules"] --> B
+  H["src/assets"] --> B
   B --> D["dist generated website"]
   D --> E["Cloudflare Pages"]
   F["GitHub pull request"] --> A
   F --> C
+  F --> G
+  F --> H
 ```
 
 ## Build
 
-`scripts/build.mjs` reads source JSON and renders:
+`scripts/build.mjs` is the orchestration entrypoint. It reads source JSON, validates content, defines the routes to render, copies static assets and writes:
 
 - `dist/index.html`
 - `dist/styles.css`
 - `dist/sitemap.xml`
 - `dist/robots.txt`
 
-Book cover images are not committed as local assets. They are stored per edition in `src/content/books.json` using Amazon image URLs resolved from each Amazon ASIN. Edition records also keep separate Amazon and Amazon AU short links so more markets can be added later without changing the card layout.
+The build helpers live under `scripts/lib/`:
+
+- `html.mjs`: escaping, compact text and JSON-LD script helpers
+- `urls.mjs`: site origin, route URLs and asset URL helpers
+- `books.mjs`: featured-edition and edition-order helpers
+- `schema.mjs`: metadata and structured data generation
+- `render-home.mjs`: homepage component and page rendering
+- `validation.mjs`: source content validation before rendering
+
+Routes are represented as a small route list in `scripts/build.mjs`. The homepage is the only route today, but sitemap generation already uses the route list so future book pages can be added without rewriting the build entrypoint.
+
+Most book cover images are referenced per edition in `src/content/books.json` using Amazon image URLs resolved from each Amazon ASIN. The locally tracked cover images in `src/assets/` are used for the custom social preview image. Edition records also keep separate Amazon and Amazon AU short links so more markets can be added later without changing the card layout.
 
 `scripts/check.mjs` verifies that the generated site has core SEO metadata, edition data, no empty local links and no obvious draft markers.
+
+## Content Validation
+
+The build fails before rendering if required content is missing or inconsistent. Current validation checks:
+
+- required site metadata, navigation and social image asset path
+- unique book and edition IDs
+- featured edition IDs that match real editions
+- required Amazon URLs, ASINs and cover image URLs
+- exactly nine sample words for the current 3x3 word grid
+- non-empty FAQ questions and answers
+
+`scripts/check.mjs` remains the generated-output smoke test after rendering.
+
+## Social Preview Asset
+
+The Open Graph/Twitter preview uses `src/assets/social-preview.png`, with `src/assets/social-preview.svg` kept as the editable source. The SVG references the tracked source cover images in `src/assets/`.
+
+When the preview needs to change, update the SVG and regenerate the PNG at 1200x630 before opening a PR. The build copies `src/assets/` into `dist/assets/`.
 
 ## Deployment
 
