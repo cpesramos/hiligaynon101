@@ -110,5 +110,35 @@
         "image": "https://images-na.ssl-images-amazon.com/images/P/B0H266YQC6.01._SCLZZZZZZZ_SX500_.jpg"
       }
     ]
+  },
+  {
+    "id": "kids-animals-food-nature",
+    "bookNumber": 2,
+    "series": "Hiligaynon 101 Kids",
+    "title": "Hiligaynon 101 Kids",
+    "subtitle": "Animals, Food and Nature Colouring Book",
+    "shortTitle": "Animals, Food and Nature Colouring Book",
+    "audience": "Children ages 3-6 ready for more themed Hiligaynon words with an adult helper",
+    "summary": "A themed colouring book that expands early Hiligaynon practice into animals, food and nature vocabulary through playful, family-led colouring activities.",
+    "seoDescription": "A Hiligaynon colouring book for kids featuring animals, food and nature vocabulary, with simple Hiligaynon words and family-led colouring practice.",
+    "features": [
+      "Animals, food and nature vocabulary for young learners",
+      "Large colouring pages for hands-on practice",
+      "A natural next kids book after My First Words"
+    ],
+    "featuredEditionId": "kids-animals-current",
+    "editions": [
+      {
+        "id": "kids-animals-current",
+        "label": "Current Edition",
+        "asin": "B0H4FVZPKC",
+        "amazonAsin": "B0H4FVZPKC",
+        "amazonAuAsin": "B0H4FVZPKC",
+        "format": "Amazon listings",
+        "amazonUrl": "https://amzn.to/4aBIkES",
+        "amazonAuUrl": "https://amzn.to/4v1ZXpO",
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0H4FVZPKC.01._SCLZZZZZZZ_SX500_.jpg"
+      }
+    ]
   }
 ]

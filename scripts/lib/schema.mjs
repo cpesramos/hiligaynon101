@@ -139,8 +139,8 @@ export function wordSchema(site, words) {
   return {
     "@context": "https://schema.org",
     "@type": "DefinedTermSet",
-    name: "Sample Hiligaynon first words for kids",
-    description: "Child-friendly Hiligaynon first words featured on the Hiligaynon 101 website.",
+    name: "Sample Hiligaynon words for kids",
+    description: "Child-friendly Hiligaynon words featured on the Hiligaynon 101 website.",
     inLanguage: site.language,
     hasDefinedTerm: words.map((word) => ({
       "@type": "DefinedTerm",
