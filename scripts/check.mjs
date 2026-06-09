@@ -79,6 +79,7 @@ async function check() {
     "B0F3CPBSK5",
     "B0GT5TTQWS",
     "B0H266YQC6",
+    "B0H4FVZPKC",
     "Amazon US",
     "Amazon AU",
     "Recommended for most buyers",
@@ -98,6 +99,9 @@ async function check() {
     "TASA",
     "https://amzn.to/4ujalZO",
     "https://amzn.to/4dTLAO2",
+    "https://amzn.to/4aBIkES",
+    "https://amzn.to/4v1ZXpO",
+    "Animals, Food and Nature Colouring Book",
     "As an Amazon Associate"
   ]) {
     if (!html.includes(needle)) {

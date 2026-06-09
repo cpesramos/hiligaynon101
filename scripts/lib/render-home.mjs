@@ -24,9 +24,13 @@ function renderAffiliateButton(book, edition, market, url, variant = "") {
   return `<a class="edition-button${variantClass}" href="${attr(url)}" rel="sponsored" aria-label="${attr(`${label} listing for ${book.title}: ${book.subtitle}, ${edition.label}`)}">${escapeHtml(label)}</a>`;
 }
 
+function bookStatusText(book) {
+  return `${book.series} Book ${book.bookNumber}`;
+}
+
 function renderBookCard(book) {
   const edition = featuredEdition(book);
-  const statusText = book.series === "Hiligaynon 101 Kids" ? "Hiligaynon 101 Kids" : `${book.series} Book ${book.bookNumber}`;
+  const statusText = bookStatusText(book);
   return `
     <article class="book-card" id="${attr(book.id)}">
       <div class="book-visual">
@@ -66,6 +70,26 @@ function renderBookCard(book) {
   `;
 }
 
+function renderKidsFeatureCard(book) {
+  const edition = featuredEdition(book);
+  return `
+    <article class="kids-option">
+      <div class="kids-option-visual">
+        <img src="${attr(edition.image)}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover from Amazon`)}" loading="lazy">
+      </div>
+      <div class="kids-option-body">
+        <span class="status">${escapeHtml(bookStatusText(book))}</span>
+        <h3>${escapeHtml(book.subtitle)}</h3>
+        <p>${escapeHtml(book.summary)}</p>
+        <div class="kids-actions">
+          ${renderAffiliateButton(book, edition, "Amazon US", edition.amazonUrl)}
+          ${renderAffiliateButton(book, edition, "Amazon AU", edition.amazonAuUrl, "secondary")}
+        </div>
+      </div>
+    </article>
+  `;
+}
+
 function renderBookChooser(books) {
   const choices = [
     {
@@ -81,10 +105,16 @@ function renderBookChooser(books) {
       book: books.find((book) => book.id === "practical-conversations")
     },
     {
-      label: "Child ages 3-6",
-      title: "Choose the kids book",
-      text: "First words, colouring and repeat-after-me practice with an adult helper.",
+      label: "Child starter",
+      title: "First words for kids",
+      text: "Familiar first words, colouring and repeat-after-me practice.",
       book: books.find((book) => book.id === "kids-first-words")
+    },
+    {
+      label: "Child next step",
+      title: "Animals, food and nature",
+      text: "More themed vocabulary for young learners who enjoy colouring.",
+      book: books.find((book) => book.id === "kids-animals-food-nature")
     }
   ];
 
@@ -127,8 +157,7 @@ function renderFaqItem(item) {
 }
 
 export function renderHomePage({ site, books, words, faq }) {
-  const kidsBook = books.find((book) => book.series === "Hiligaynon 101 Kids");
-  const kidsEdition = kidsBook ? featuredEdition(kidsBook) : null;
+  const kidsBooks = books.filter((book) => book.series === "Hiligaynon 101 Kids");
 
   return `<!doctype html>
 <html lang="en-AU">
@@ -139,7 +168,7 @@ export function renderHomePage({ site, books, words, faq }) {
     ${jsonLdScript(bookSchema(site, books))}
     ${jsonLdScript(faqSchema(faq))}
     ${jsonLdScript(wordSchema(site, words))}
-    <link rel="stylesheet" href="/styles.css?v=20260522-words-deploy">
+    <link rel="stylesheet" href="/styles.css?v=20260609-animals-book">
   </head>
   <body>
     ${renderNav(site)}
@@ -149,7 +178,7 @@ export function renderHomePage({ site, books, words, faq }) {
           <div class="hero-copy">
             <p class="eyebrow">Books for beginners, families and heritage learners</p>
             <h1 id="hero-title"><span class="title-line">Hiligaynon</span> <span class="title-line">101</span></h1>
-            <p class="lede">Learn Hiligaynon, also known as Ilonggo, through beginner lessons, everyday conversations and first-word colouring books for kids.</p>
+            <p class="lede">Learn Hiligaynon, also known as Ilonggo, through beginner lessons, everyday conversations and kids' colouring books for first words, animals, food and nature.</p>
             <div class="hero-actions">
               <a class="button" href="#books">Choose your book</a>
               <a class="button secondary" href="#words">Try sample words</a>
@@ -167,7 +196,7 @@ export function renderHomePage({ site, books, words, faq }) {
         <div class="wrap">
           <div class="section-header">
             <h2>Choose a Hiligaynon 101 book.</h2>
-            <p>Start with beginner Ilonggo lessons, practise everyday conversations, or introduce first Hiligaynon words through the kids colouring book.</p>
+            <p>Start with beginner Ilonggo lessons, practise everyday conversations, or introduce first Hiligaynon words through kids' colouring books.</p>
           </div>
           ${renderBookChooser(books)}
           <div class="book-grid">
@@ -206,20 +235,16 @@ export function renderHomePage({ site, books, words, faq }) {
       </section>
 
       <section class="section surface" id="kids">
-        <div class="wrap kids-band">
-          <div class="kids-copy">
-            <p class="eyebrow">Hiligaynon 101 Kids</p>
-            <h2>First Hiligaynon words for ages 3-6.</h2>
-            <p>Hiligaynon 101 Kids: My First Words Colouring Book helps children connect familiar pictures with simple Hiligaynon words and English meanings.</p>
-            <p>It is built for parent, grandparent and carer-led practice: colour the picture, say the word aloud, then reuse it naturally around home.</p>
-            <div class="section-actions">
-              <a class="button" href="${attr(kidsEdition?.amazonUrl || "#books")}" rel="sponsored" aria-label="Amazon US listing for Hiligaynon 101 Kids: My First Words Colouring Book">Amazon US</a>
-              <a class="button secondary" href="${attr(kidsEdition?.amazonAuUrl || "#books")}" rel="sponsored" aria-label="Amazon AU listing for Hiligaynon 101 Kids: My First Words Colouring Book">Amazon AU</a>
-              <a class="button secondary" href="#approach">Read the approach</a>
+        <div class="wrap">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Hiligaynon 101 Kids</p>
+              <h2>Colouring books for young Hiligaynon learners.</h2>
             </div>
+            <p>Begin with everyday first words, then add animals, food and nature vocabulary through simple colouring pages designed for practice with an adult helper.</p>
           </div>
-          <div class="cover-spread">
-            <img src="${attr(kidsEdition?.image || site.socialImage)}" alt="Hiligaynon 101 Kids colouring book Amazon cover" loading="lazy">
+          <div class="kids-options">
+            ${kidsBooks.map(renderKidsFeatureCard).join("")}
           </div>
         </div>
       </section>
@@ -228,7 +253,7 @@ export function renderHomePage({ site, books, words, faq }) {
         <div class="wrap">
           <div class="section-header">
             <h2>Simple words children can colour and repeat.</h2>
-            <p>These child-friendly Hiligaynon words match the early vocabulary style shown on the kids book listing, with familiar objects children can colour, see and repeat.</p>
+            <p>These child-friendly Hiligaynon words show the short, concrete vocabulary style used across the kids books, with familiar things children can colour, see and repeat.</p>
           </div>
           <div class="words-grid">
             ${words.map(renderWordCard).join("")}
