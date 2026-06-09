@@ -24,8 +24,23 @@ function renderAffiliateButton(book, edition, market, url, variant = "") {
   return `<a class="edition-button${variantClass}" href="${attr(url)}" rel="sponsored" aria-label="${attr(`${label} listing for ${book.title}: ${book.subtitle}, ${edition.label}`)}">${escapeHtml(label)}</a>`;
 }
 
+function displayImage(edition) {
+  return edition.localImage || edition.image;
+}
+
 function bookStatusText(book) {
   return `${book.series} Book ${book.bookNumber}`;
+}
+
+function bookFitText(book) {
+  const fitById = {
+    "beginner-journey": "Start here if you are learning Hiligaynon from zero or returning to family language after a long break.",
+    "practical-conversations": "Move here when useful everyday dialogue matters more than another beginner overview.",
+    "kids-first-words": "Use this first for ages 3-6 when an adult can read, repeat and colour with the child.",
+    "kids-animals-food-nature": "Use this next for young learners who are ready for themed words about animals, food and nature."
+  };
+
+  return fitById[book.id] || book.audience;
 }
 
 function renderBookCard(book) {
@@ -34,7 +49,7 @@ function renderBookCard(book) {
   return `
     <article class="book-card" id="${attr(book.id)}">
       <div class="book-visual">
-        <img class="book-cover" src="${attr(edition.image)}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover from Amazon`)}" loading="lazy">
+        <img class="book-cover" src="${attr(displayImage(edition))}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover`)}" loading="lazy">
       </div>
       <div class="book-body">
         <span class="status">${escapeHtml(statusText)}</span>
@@ -42,12 +57,13 @@ function renderBookCard(book) {
           <h3>${escapeHtml(book.title)}</h3>
           <p class="book-subtitle">${escapeHtml(book.subtitle)}</p>
         </div>
-        <p class="book-meta">${escapeHtml(book.audience)}</p>
+        <p class="book-fit">${escapeHtml(bookFitText(book))}</p>
         <p class="book-summary">${escapeHtml(book.summary)}</p>
         <ul class="feature-list">
           ${book.features.map((feature) => `<li>${escapeHtml(feature)}</li>`).join("")}
         </ul>
         <div class="edition-list" id="${attr(book.id)}-editions" aria-label="${attr(`${book.title}: ${book.subtitle} Amazon editions`)}">
+          <p class="edition-heading">Amazon edition links</p>
           ${orderedEditions(book)
             .map(
               (item) => `
@@ -75,7 +91,7 @@ function renderKidsFeatureCard(book) {
   return `
     <article class="kids-option">
       <div class="kids-option-visual">
-        <img src="${attr(edition.image)}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover from Amazon`)}" loading="lazy">
+        <img src="${attr(displayImage(edition))}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover`)}" loading="lazy">
       </div>
       <div class="kids-option-body">
         <span class="status">${escapeHtml(bookStatusText(book))}</span>
@@ -96,24 +112,28 @@ function renderBookChooser(books) {
       label: "Adult beginner",
       title: "Start with Book 1",
       text: "Best first step for greetings, basics and beginner-friendly practice.",
+      cta: "View beginner book",
       book: books.find((book) => book.id === "beginner-journey")
     },
     {
       label: "Ready to practise",
       title: "Move to conversations",
       text: "Use this after the first book when everyday dialogue matters most.",
+      cta: "View conversation book",
       book: books.find((book) => book.id === "practical-conversations")
     },
     {
       label: "Child starter",
       title: "First words for kids",
       text: "Familiar first words, colouring and repeat-after-me practice.",
+      cta: "View first kids book",
       book: books.find((book) => book.id === "kids-first-words")
     },
     {
       label: "Child next step",
       title: "Animals, food and nature",
       text: "More themed vocabulary for young learners who enjoy colouring.",
+      cta: "View themed kids book",
       book: books.find((book) => book.id === "kids-animals-food-nature")
     }
   ];
@@ -128,10 +148,41 @@ function renderBookChooser(books) {
               <span>${escapeHtml(choice.label)}</span>
               <strong>${escapeHtml(choice.title)}</strong>
               <small>${escapeHtml(choice.text)}</small>
+              <em>${escapeHtml(choice.cta)}</em>
             </a>
           `
         )
         .join("")}
+    </div>
+  `;
+}
+
+function renderHeroVisual(books) {
+  const heroBooks = [
+    books.find((book) => book.id === "beginner-journey"),
+    books.find((book) => book.id === "kids-animals-food-nature"),
+    books.find((book) => book.id === "practical-conversations")
+  ].filter(Boolean);
+
+  return `
+    <div class="hero-visual" aria-label="Hiligaynon 101 book covers">
+      <div class="cover-stage">
+        ${heroBooks
+          .map((book, index) => {
+            const edition = featuredEdition(book);
+            return `
+              <figure class="hero-cover hero-cover-${index + 1}">
+                <img src="${attr(displayImage(edition))}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover`)}">
+              </figure>
+            `;
+          })
+          .join("")}
+      </div>
+      <div class="hero-path">
+        <span>Book 1 for beginners</span>
+        <span>Book 2 for conversations</span>
+        <span>Kids books for ages 3-6</span>
+      </div>
     </div>
   `;
 }
@@ -176,9 +227,9 @@ export function renderHomePage({ site, books, words, faq }) {
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-inner">
           <div class="hero-copy">
-            <p class="eyebrow">Books for beginners, families and heritage learners</p>
+            <p class="eyebrow">Hiligaynon and Ilonggo books for beginners</p>
             <h1 id="hero-title"><span class="title-line">Hiligaynon</span> <span class="title-line">101</span></h1>
-            <p class="lede">Learn Hiligaynon, also known as Ilonggo, through beginner lessons, everyday conversations and kids' colouring books for first words, animals, food and nature.</p>
+            <p class="lede">Choose the right Hiligaynon book for your next step: beginner lessons, everyday conversations, or kids' colouring books for family-led practice.</p>
             <div class="hero-actions">
               <a class="button" href="#books">Choose your book</a>
               <a class="button secondary" href="#words">Try sample words</a>
@@ -189,6 +240,7 @@ export function renderHomePage({ site, books, words, faq }) {
               <span class="proof-pill">Kids colouring books</span>
             </div>
           </div>
+          ${renderHeroVisual(books)}
         </div>
       </section>
 
@@ -196,7 +248,7 @@ export function renderHomePage({ site, books, words, faq }) {
         <div class="wrap">
           <div class="section-header">
             <h2>Choose a Hiligaynon 101 book.</h2>
-            <p>Start with beginner Ilonggo lessons, practise everyday conversations, or introduce first Hiligaynon words through kids' colouring books.</p>
+            <p>Pick by learner type first, then use the Amazon links on each book card. The current edition is surfaced before earlier editions.</p>
           </div>
           ${renderBookChooser(books)}
           <div class="book-grid">
