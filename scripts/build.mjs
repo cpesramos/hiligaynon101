@@ -2,7 +2,9 @@ import { existsSync } from "node:fs";
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { renderBookPage } from "./lib/render-book-page.mjs";
 import { renderHomePage } from "./lib/render-home.mjs";
+import { infoPageRoutes } from "./lib/render-info-page.mjs";
 import { siteOrigin } from "./lib/urls.mjs";
 import { validateContent } from "./lib/validation.mjs";
 
@@ -20,7 +22,10 @@ function pagePath(routePath) {
 
 function sitemapXml(site, routes) {
   const urls = routes
-    .map((route) => `  <url><loc>${siteOrigin(site)}${route.path}</loc></url>`)
+    .map((route) => {
+      const lastmod = site.lastModified ? `<lastmod>${site.lastModified}</lastmod>` : "";
+      return `  <url><loc>${siteOrigin(site)}${route.path}</loc>${lastmod}</url>`;
+    })
     .join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 }
@@ -32,20 +37,26 @@ async function writePage(route) {
 }
 
 async function build() {
-  const [site, books, words, faq] = await Promise.all([
+  const [site, books, words, phrases, faq] = await Promise.all([
     readJson("data", "site.json"),
     readJson("content", "books.json"),
     readJson("content", "words.json"),
+    readJson("content", "phrases.json"),
     readJson("content", "faq.json")
   ]);
 
-  validateContent({ site, books, words, faq, src });
+  validateContent({ site, books, words, phrases, faq, src });
 
   const routes = [
     {
       path: "/",
-      html: renderHomePage({ site, books, words, faq })
-    }
+      html: renderHomePage({ site, books, words, phrases, faq })
+    },
+    ...books.map((book) => ({
+      path: book.path,
+      html: renderBookPage({ site, book })
+    })),
+    ...infoPageRoutes(site)
   ];
 
   await rm(dist, { recursive: true, force: true });

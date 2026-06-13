@@ -2,9 +2,10 @@
   "name": "Hiligaynon 101",
   "url": "https://hiligaynon101.com",
   "author": "Chanelle Ramos",
-  "tagline": "Hiligaynon books for beginners, families, heritage learners and kids.",
-  "seoTitle": "Hiligaynon 101 Books | Learn Ilonggo for Beginners, Families and Kids",
-  "description": "Learn Hiligaynon, also known as Ilonggo, with Hiligaynon 101 books by Chanelle Ramos for beginners, everyday conversations and kids' colouring books with first words, animals, food and nature.",
+  "lastModified": "2026-06-13",
+  "tagline": "Beginner-first Hiligaynon books for families, heritage learners and everyday use.",
+  "seoTitle": "Hiligaynon 101 Books | Learn Hiligaynon and Ilonggo for Beginners & Kids",
+  "description": "Choose Hiligaynon 101 books by Chanelle Ramos for learning Hiligaynon or Ilonggo: adult beginners, heritage learners, everyday conversations and parent-led kids' colouring books.",
   "keywords": [
     "Hiligaynon 101",
     "learn Hiligaynon",
@@ -16,6 +17,12 @@
     "Hiligaynon colouring book",
     "Hiligaynon animal colouring book",
     "Hiligaynon kids colouring book",
+    "Hiligaynon books Australia",
+    "Hiligaynon conversations",
+    "Ilonggo conversations",
+    "Ilonggo language books",
+    "Hiligaynon heritage learners",
+    "Hiligaynon first words",
     "Ilonggo for kids",
     "Chanelle Ramos"
   ],
@@ -28,20 +35,20 @@
       "href": "#books"
     },
     {
-      "label": "Kids",
-      "href": "#kids"
+      "label": "Pathway",
+      "href": "#series-pathway"
     },
     {
       "label": "Author",
       "href": "#author"
     },
     {
-      "label": "Words",
-      "href": "#words"
+      "label": "Samples",
+      "href": "#samples"
     },
     {
-      "label": "Learning",
-      "href": "#approach"
+      "label": "FAQ",
+      "href": "#faq"
     }
   ]
 }

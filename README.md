@@ -22,12 +22,15 @@ The local server defaults to `http://localhost:4321`.
 
 - Site settings: `src/data/site.json`
 - Book and series content: `src/content/books.json`
+- Adult beginner phrase samples: `src/content/phrases.json`
 - Sample vocabulary: `src/content/words.json`
 - FAQ/SEO content: `src/content/faq.json`
 
 Generated output is written to `dist/` and should not be edited by hand.
 
-Cover imagery is loaded from Amazon image endpoints by ASIN. Amazon and Amazon AU purchase links live at the edition level in `src/content/books.json`.
+Book records include their static page path. Amazon and Amazon AU purchase links live at the edition level in `src/content/books.json`, with the featured edition treated as the current recommended edition.
+
+The build generates the homepage, one static page per book, and simple footer pages for affiliate disclosure, contact and privacy.
 
 ## Deployment
 

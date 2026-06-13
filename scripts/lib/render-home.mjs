@@ -1,6 +1,13 @@
 import { featuredEdition, orderedEditions } from "./books.mjs";
 import { attr, escapeHtml, jsonLdScript } from "./html.mjs";
-import { bookSchema, faqSchema, metaTags, wordSchema } from "./schema.mjs";
+import { bookSchema, faqSchema, metaTags, phraseSchema, wordSchema } from "./schema.mjs";
+
+const coverDimensions = {
+  "/assets/cover-beginner-second.jpg": { width: 313, height: 500 },
+  "/assets/cover-conversations-second.jpg": { width: 313, height: 500 },
+  "/assets/cover-kids-current.jpg": { width: 387, height: 500 },
+  "/assets/cover-kids-animals-current.jpg": { width: 387, height: 500 }
+};
 
 function renderNav(site) {
   return `
@@ -28,6 +35,15 @@ function displayImage(edition) {
   return edition.localImage || edition.image;
 }
 
+function imageSizeAttrs(edition) {
+  const dimensions = coverDimensions[displayImage(edition)];
+  return dimensions ? ` width="${dimensions.width}" height="${dimensions.height}"` : "";
+}
+
+function bookPath(book) {
+  return book.path || `#${book.id}`;
+}
+
 function bookStatusText(book) {
   return `${book.series} Book ${book.bookNumber}`;
 }
@@ -45,11 +61,12 @@ function bookFitText(book) {
 
 function renderBookCard(book) {
   const edition = featuredEdition(book);
+  const earlierEditions = orderedEditions(book).filter((item) => item.id !== edition.id);
   const statusText = bookStatusText(book);
   return `
     <article class="book-card" id="${attr(book.id)}">
       <div class="book-visual">
-        <img class="book-cover" src="${attr(displayImage(edition))}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover`)}" loading="lazy">
+        <img class="book-cover" src="${attr(displayImage(edition))}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover`)}" loading="lazy"${imageSizeAttrs(edition)}>
       </div>
       <div class="book-body">
         <span class="status">${escapeHtml(statusText)}</span>
@@ -62,24 +79,46 @@ function renderBookCard(book) {
         <ul class="feature-list">
           ${book.features.map((feature) => `<li>${escapeHtml(feature)}</li>`).join("")}
         </ul>
+      </div>
+      <div class="edition-panel">
         <div class="edition-list" id="${attr(book.id)}-editions" aria-label="${attr(`${book.title}: ${book.subtitle} Amazon editions`)}">
-          <p class="edition-heading">Amazon edition links</p>
-          ${orderedEditions(book)
-            .map(
-              (item) => `
-                <div class="edition-row${item.id === edition.id ? " recommended-edition" : ""}">
-                  <span class="edition-label">
-                    ${escapeHtml(item.label)}
-                    <span class="edition-note">${item.id === edition.id ? "Recommended for most buyers" : "Earlier edition"}</span>
-                  </span>
-                  <div class="edition-actions">
-                    ${renderAffiliateButton(book, item, "Amazon US", item.amazonUrl)}
-                    ${renderAffiliateButton(book, item, "Amazon AU", item.amazonAuUrl, "secondary")}
+          <p class="edition-heading">Buy current edition</p>
+          <div class="edition-row recommended-edition">
+            <span class="edition-label">
+              ${escapeHtml(edition.label)}
+              <span class="edition-note">Recommended for most buyers</span>
+            </span>
+            <div class="edition-actions">
+              ${renderAffiliateButton(book, edition, "Amazon US", edition.amazonUrl)}
+              ${renderAffiliateButton(book, edition, "Amazon AU", edition.amazonAuUrl, "secondary")}
+            </div>
+          </div>
+          ${
+            earlierEditions.length
+              ? `<details class="earlier-editions">
+                  <summary>Earlier edition links</summary>
+                  <div class="earlier-edition-list">
+                    ${earlierEditions
+                      .map(
+                        (item) => `
+                          <div class="edition-row earlier-edition-row">
+                            <span class="edition-label">
+                              ${escapeHtml(item.label)}
+                              <span class="edition-note">Earlier edition</span>
+                            </span>
+                            <div class="edition-actions">
+                              ${renderAffiliateButton(book, item, "Amazon US", item.amazonUrl)}
+                              ${renderAffiliateButton(book, item, "Amazon AU", item.amazonAuUrl, "secondary")}
+                            </div>
+                          </div>
+                        `
+                      )
+                      .join("")}
                   </div>
-                </div>
-              `
-            )
-            .join("")}
+                </details>`
+              : ""
+          }
+          <a class="book-detail-link" href="${attr(bookPath(book))}">View book details</a>
         </div>
       </div>
     </article>
@@ -91,7 +130,7 @@ function renderKidsFeatureCard(book) {
   return `
     <article class="kids-option">
       <div class="kids-option-visual">
-        <img src="${attr(displayImage(edition))}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover`)}" loading="lazy">
+        <img src="${attr(displayImage(edition))}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover`)}" loading="lazy"${imageSizeAttrs(edition)}>
       </div>
       <div class="kids-option-body">
         <span class="status">${escapeHtml(bookStatusText(book))}</span>
@@ -101,6 +140,7 @@ function renderKidsFeatureCard(book) {
           ${renderAffiliateButton(book, edition, "Amazon US", edition.amazonUrl)}
           ${renderAffiliateButton(book, edition, "Amazon AU", edition.amazonAuUrl, "secondary")}
         </div>
+        <a class="book-detail-link" href="${attr(bookPath(book))}">View book details</a>
       </div>
     </article>
   `;
@@ -109,31 +149,31 @@ function renderKidsFeatureCard(book) {
 function renderBookChooser(books) {
   const choices = [
     {
-      label: "Adult beginner",
-      title: "Start with Book 1",
-      text: "Best first step for greetings, basics and beginner-friendly practice.",
-      cta: "View beginner book",
+      label: "Adult Track",
+      title: "Adult beginner",
+      text: "Start here for first Hiligaynon lessons, greetings and basic sentence practice.",
+      cta: "Start with Book 1",
       book: books.find((book) => book.id === "beginner-journey")
     },
     {
-      label: "Ready to practise",
-      title: "Move to conversations",
-      text: "Use this after the first book when everyday dialogue matters most.",
-      cta: "View conversation book",
+      label: "Adult Track",
+      title: "Everyday conversations",
+      text: "Move here when you want practical Ilonggo dialogue for family, travel and daily life.",
+      cta: "Go to Book 2",
       book: books.find((book) => book.id === "practical-conversations")
     },
     {
-      label: "Child starter",
-      title: "First words for kids",
-      text: "Familiar first words, colouring and repeat-after-me practice.",
-      cta: "View first kids book",
+      label: "Kids Track",
+      title: "Kids first words",
+      text: "Choose this for ages 3-6 when an adult can read, repeat and colour with the child.",
+      cta: "Go to kids Book 1",
       book: books.find((book) => book.id === "kids-first-words")
     },
     {
-      label: "Child next step",
-      title: "Animals, food and nature",
-      text: "More themed vocabulary for young learners who enjoy colouring.",
-      cta: "View themed kids book",
+      label: "Kids Track",
+      title: "Kids themed words",
+      text: "Add animals, food and nature vocabulary after the first kids colouring book.",
+      cta: "Go to kids Book 2",
       book: books.find((book) => book.id === "kids-animals-food-nature")
     }
   ];
@@ -142,10 +182,12 @@ function renderBookChooser(books) {
     <div class="book-chooser" aria-label="Quick book chooser">
       ${choices
         .filter((choice) => choice.book)
+        .map((choice, index) => ({ ...choice, index: index + 1 }))
         .map(
           (choice) => `
             <a class="chooser-item" href="#${attr(choice.book.id)}">
-              <span>${escapeHtml(choice.label)}</span>
+              <span class="chooser-number">${String(choice.index).padStart(2, "0")}</span>
+              <span class="chooser-kicker">${escapeHtml(choice.label)}</span>
               <strong>${escapeHtml(choice.title)}</strong>
               <small>${escapeHtml(choice.text)}</small>
               <em>${escapeHtml(choice.cta)}</em>
@@ -157,33 +199,133 @@ function renderBookChooser(books) {
   `;
 }
 
-function renderHeroVisual(books) {
+function renderHeroBackdrop(books) {
   const heroBooks = [
     books.find((book) => book.id === "beginner-journey"),
-    books.find((book) => book.id === "kids-animals-food-nature"),
-    books.find((book) => book.id === "practical-conversations")
+    books.find((book) => book.id === "practical-conversations"),
+    books.find((book) => book.id === "kids-first-words"),
+    books.find((book) => book.id === "kids-animals-food-nature")
   ].filter(Boolean);
 
   return `
-    <div class="hero-visual" aria-label="Hiligaynon 101 book covers">
-      <div class="cover-stage">
+    <div class="hero-backdrop" aria-hidden="true">
+      <div class="cover-field">
         ${heroBooks
           .map((book, index) => {
             const edition = featuredEdition(book);
             return `
               <figure class="hero-cover hero-cover-${index + 1}">
-                <img src="${attr(displayImage(edition))}" alt="${attr(`${book.title}: ${book.subtitle} ${edition.label} cover`)}">
+                <img src="${attr(displayImage(edition))}" alt=""${imageSizeAttrs(edition)}>
               </figure>
             `;
           })
           .join("")}
       </div>
-      <div class="hero-path">
-        <span>Book 1 for beginners</span>
-        <span>Book 2 for conversations</span>
-        <span>Kids books for ages 3-6</span>
-      </div>
     </div>
+  `;
+}
+
+function renderHeroRoutes(books) {
+  const routes = [
+    {
+      number: "01",
+      label: "Beginner",
+      text: "Book 1",
+      book: books.find((book) => book.id === "beginner-journey")
+    },
+    {
+      number: "02",
+      label: "Conversation",
+      text: "Book 2",
+      book: books.find((book) => book.id === "practical-conversations")
+    },
+    {
+      number: "03",
+      label: "Kids start",
+      text: "First words",
+      book: books.find((book) => book.id === "kids-first-words")
+    },
+    {
+      number: "04",
+      label: "Kids next",
+      text: "Animals, food, nature",
+      book: books.find((book) => book.id === "kids-animals-food-nature")
+    }
+  ];
+
+  return `
+    <div class="hero-routes" aria-label="Hiligaynon 101 learning paths">
+      ${routes
+        .filter((route) => route.book)
+        .map(
+          (route) => `
+            <a class="hero-route" href="${attr(bookPath(route.book))}">
+              <span>${escapeHtml(route.number)}</span>
+              <strong>${escapeHtml(route.label)}</strong>
+              <small>${escapeHtml(route.text)}</small>
+            </a>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
+function renderTrustStrip() {
+  return `
+    <section class="trust-strip" aria-label="Hiligaynon 101 trust markers">
+      <div class="trust-strip-inner">
+        <p><strong>Created by Chanelle Ramos, Bacolod-born and Australia-based.</strong></p>
+        <p>Beginner-first Hiligaynon for families, heritage learners and everyday use.</p>
+      </div>
+    </section>
+  `;
+}
+
+function renderSeriesPathway(books) {
+  const adultBooks = ["beginner-journey", "practical-conversations"].map((id) => books.find((book) => book.id === id)).filter(Boolean);
+  const kidsBooks = ["kids-first-words", "kids-animals-food-nature"].map((id) => books.find((book) => book.id === id)).filter(Boolean);
+
+  const renderPathwayItem = (book) => `
+    <a class="pathway-item" href="${attr(bookPath(book))}">
+      <span>${escapeHtml(bookStatusText(book))}</span>
+      <strong>${escapeHtml(book.shortTitle)}</strong>
+      <small>${escapeHtml(book.audience)}</small>
+    </a>
+  `;
+
+  return `
+    <section class="section" id="series-pathway">
+      <div class="wrap">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">How the series works</p>
+            <h2>Two adult books, plus a separate kids activity branch.</h2>
+          </div>
+          <p>The adult track builds from foundations into practical conversations. The kids books are not the next adult level; they are parent-led colouring activities for young children.</p>
+        </div>
+        <div class="pathway-grid">
+          <article class="pathway-track">
+            <div class="track-heading">
+              <span>Adult Track</span>
+              <h3>Foundations, then everyday conversation.</h3>
+            </div>
+            <div class="pathway-list">
+              ${adultBooks.map(renderPathwayItem).join("")}
+            </div>
+          </article>
+          <article class="pathway-track kids-branch">
+            <div class="track-heading">
+              <span>Kids Track</span>
+              <h3>Parent-led first words and themed vocabulary.</h3>
+            </div>
+            <div class="pathway-list">
+              ${kidsBooks.map(renderPathwayItem).join("")}
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -198,6 +340,17 @@ function renderWordCard(word) {
   `;
 }
 
+function renderPhraseCard(phrase) {
+  return `
+    <article class="phrase-card" data-audio-key="${attr(phrase.audioKey)}">
+      <div class="phrase-context">${escapeHtml(phrase.context)}</div>
+      <h3 lang="hil">${escapeHtml(phrase.phrase)}</h3>
+      <p class="phrase-translation">${escapeHtml(phrase.translation)}</p>
+      <p>${escapeHtml(phrase.usage)}</p>
+    </article>
+  `;
+}
+
 function renderFaqItem(item) {
   return `
     <article class="faq-item">
@@ -207,7 +360,7 @@ function renderFaqItem(item) {
   `;
 }
 
-export function renderHomePage({ site, books, words, faq }) {
+export function renderHomePage({ site, books, words, phrases, faq }) {
   const kidsBooks = books.filter((book) => book.series === "Hiligaynon 101 Kids");
 
   return `<!doctype html>
@@ -218,37 +371,44 @@ export function renderHomePage({ site, books, words, faq }) {
     ${metaTags(site)}
     ${jsonLdScript(bookSchema(site, books))}
     ${jsonLdScript(faqSchema(faq))}
+    ${jsonLdScript(phraseSchema(site, phrases))}
     ${jsonLdScript(wordSchema(site, words))}
-    <link rel="stylesheet" href="/styles.css?v=20260609-animals-book">
+    <link rel="stylesheet" href="/styles.css?v=20260613-conversion-pages">
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     ${renderNav(site)}
-    <main>
+    <main id="main-content">
       <section class="hero" aria-labelledby="hero-title">
+        ${renderHeroBackdrop(books)}
         <div class="hero-inner">
           <div class="hero-copy">
-            <p class="eyebrow">Hiligaynon and Ilonggo books for beginners</p>
-            <h1 id="hero-title"><span class="title-line">Hiligaynon</span> <span class="title-line">101</span></h1>
-            <p class="lede">Choose the right Hiligaynon book for your next step: beginner lessons, everyday conversations, or kids' colouring books for family-led practice.</p>
+            <p class="eyebrow">Official Hiligaynon 101 book series</p>
+            <h1 id="hero-title">Learn Hiligaynon with the right book for your stage.</h1>
+            <p class="lede">Start with Book 1 if you are an adult beginner or heritage learner, move to Book 2 for everyday conversation, or choose the kids branch for parent-led colouring practice.</p>
             <div class="hero-actions">
-              <a class="button" href="#books">Choose your book</a>
-              <a class="button secondary" href="#words">Try sample words</a>
+              <a class="button" href="/books/beginner-journey/">Start with Book 1</a>
+              <a class="button secondary" href="#samples">Try sample phrases</a>
             </div>
             <div class="hero-proof" aria-label="Series highlights">
-              <span class="proof-pill">Beginner lessons</span>
-              <span class="proof-pill">Everyday conversations</span>
-              <span class="proof-pill">Kids colouring books</span>
+              <span class="proof-pill">Adult beginner path</span>
+              <span class="proof-pill">Everyday conversation learner</span>
+              <span class="proof-pill">Kids and family-led learning</span>
             </div>
+            ${renderHeroRoutes(books)}
           </div>
-          ${renderHeroVisual(books)}
         </div>
       </section>
+      ${renderTrustStrip()}
 
       <section class="section surface" id="books">
         <div class="wrap">
           <div class="section-header">
-            <h2>Choose a Hiligaynon 101 book.</h2>
-            <p>Pick by learner type first, then use the Amazon links on each book card. The current edition is surfaced before earlier editions.</p>
+            <div>
+              <p class="eyebrow">Choose by learner</p>
+              <h2>Find the Hiligaynon book that matches your learner.</h2>
+            </div>
+            <p>Use this as a simple buyer guide for learning Hiligaynon or Ilonggo: adult beginner, conversation practice, first words for kids, or the next themed colouring book.</p>
           </div>
           ${renderBookChooser(books)}
           <div class="book-grid">
@@ -257,12 +417,14 @@ export function renderHomePage({ site, books, words, faq }) {
         </div>
       </section>
 
+      ${renderSeriesPathway(books)}
+
       <section class="section" id="author">
         <div class="wrap">
           <div class="section-header">
             <div>
               <p class="eyebrow">From the author</p>
-              <h2>Why Chanelle created Hiligaynon 101.</h2>
+              <h2>Created by Chanelle Ramos, Bacolod-born and Australia-based.</h2>
             </div>
             <div class="author-copy">
               <p>Chanelle Ramos is a native of Bacolod City in the Philippines and is now based in Australia. After moving to Australia at 13, she kept Hiligaynon close as an enduring connection to home, family and culture.</p>
@@ -291,7 +453,7 @@ export function renderHomePage({ site, books, words, faq }) {
           <div class="section-header">
             <div>
               <p class="eyebrow">Hiligaynon 101 Kids</p>
-              <h2>Colouring books for young Hiligaynon learners.</h2>
+              <h2>Hiligaynon colouring books for first words and themed vocabulary.</h2>
             </div>
             <p>Begin with everyday first words, then add animals, food and nature vocabulary through simple colouring pages designed for practice with an adult helper.</p>
           </div>
@@ -301,14 +463,26 @@ export function renderHomePage({ site, books, words, faq }) {
         </div>
       </section>
 
-      <section class="section" id="words">
+      <section class="section" id="samples">
         <div class="wrap">
           <div class="section-header">
-            <h2>Simple words children can colour and repeat.</h2>
-            <p>These child-friendly Hiligaynon words show the short, concrete vocabulary style used across the kids books, with familiar things children can colour, see and repeat.</p>
+            <div>
+              <p class="eyebrow">Sample practice</p>
+              <h2>Try adult phrases and kids first words before you buy.</h2>
+            </div>
+            <p>The adult examples show beginner-friendly everyday phrases. The kids examples show the short, concrete vocabulary style used in the colouring books.</p>
           </div>
+          <div class="sample-group adult-samples">
+            <h3>Adult beginner phrase samples</h3>
+            <div class="phrase-grid">
+              ${phrases.map(renderPhraseCard).join("")}
+            </div>
+          </div>
+          <div class="sample-group" id="words">
+            <h3>Kids first-word samples</h3>
           <div class="words-grid">
             ${words.map(renderWordCard).join("")}
+          </div>
           </div>
         </div>
       </section>
@@ -316,30 +490,44 @@ export function renderHomePage({ site, books, words, faq }) {
       <section class="section surface" id="approach">
         <div class="wrap">
           <div class="section-header">
-            <h2>A gentle way to learn together.</h2>
-            <p>The series keeps the pressure low and the language usable, especially for families reconnecting with Hiligaynon in everyday life.</p>
+            <div>
+              <p class="eyebrow">Why Hiligaynon 101 is different</p>
+              <h2>Beginner-first Hiligaynon for real families and everyday use.</h2>
+            </div>
+            <p>The series keeps the pressure low and the language usable, especially for families reconnecting with Hiligaynon across countries, generations and learner confidence levels.</p>
           </div>
-          <div class="approach-grid">
+          <div class="difference-grid">
             <article class="approach-item">
-              <h3>Start small</h3>
-              <p>Lessons and activities focus on short, repeatable language that beginners can use without needing a full grammar course first.</p>
+              <h3>Practical</h3>
+              <p>Lessons and activities focus on language that helps with greetings, family, home, travel and everyday conversation.</p>
             </article>
             <article class="approach-item">
-              <h3>Practise together</h3>
-              <p>The children's books are built for shared moments: say the word, colour the picture, then say it again later.</p>
+              <h3>Gentle</h3>
+              <p>The pacing is designed for people who may feel unsure, rusty or completely new to Hiligaynon.</p>
             </article>
             <article class="approach-item">
-              <h3>Respect variation</h3>
+              <h3>Family-connected</h3>
+              <p>The books support heritage learners, mixed-language households and children learning with adults.</p>
+            </article>
+            <article class="approach-item">
+              <h3>Culturally aware</h3>
               <p>Hiligaynon usage can vary by family, town, province and speaker, so the books keep a gentle and practical tone.</p>
+            </article>
+            <article class="approach-item">
+              <h3>Beginner-first</h3>
+              <p>The series starts with useful foundations before asking learners to handle longer conversations.</p>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="section">
+      <section class="section" id="faq">
         <div class="wrap">
           <div class="section-header">
-            <h2>Common questions about Hiligaynon 101.</h2>
+            <div>
+              <p class="eyebrow">Questions</p>
+              <h2>Common questions about Hiligaynon 101 books.</h2>
+            </div>
             <p>Search-friendly answers for people comparing Hiligaynon, Ilonggo and beginner learning options.</p>
           </div>
           <div class="faq-list">
@@ -352,10 +540,11 @@ export function renderHomePage({ site, books, words, faq }) {
         <div class="wrap">
           <div class="cta-band">
             <div>
-              <h2>Explore the Hiligaynon 101 series.</h2>
-              <p>This website gives the books a clear home for search, book discovery and Amazon edition links.</p>
+              <p class="eyebrow">Book discovery</p>
+              <h2>Start with the right Hiligaynon 101 book.</h2>
+              <p>Compare the learning path, check the current editions and use the Amazon US or Amazon AU links for the right book.</p>
             </div>
-            <a class="button secondary" href="#books">Review the series</a>
+            <a class="button secondary" href="#books">Review the paths</a>
           </div>
         </div>
       </section>
@@ -363,7 +552,12 @@ export function renderHomePage({ site, books, words, faq }) {
     <footer class="site-footer">
       <div class="footer-inner">
         <p>Copyright ${new Date().getFullYear()} ${escapeHtml(site.author)}. ${escapeHtml(site.name)}.</p>
-        <a href="/">hiligaynon101.com</a>
+        <nav class="footer-links" aria-label="Footer links">
+          <a href="/">Home</a>
+          <a href="/affiliate-disclosure/">Affiliate disclosure</a>
+          <a href="/contact/">Contact</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
         <p class="footer-note">${escapeHtml(site.affiliateDisclosure)}</p>
       </div>
     </footer>

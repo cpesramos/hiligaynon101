@@ -32,6 +32,10 @@ flowchart TD
 `scripts/build.mjs` is the orchestration entrypoint. It reads source JSON, validates content, defines the routes to render, copies static assets and writes:
 
 - `dist/index.html`
+- one generated detail page for each book path in `src/content/books.json`
+- `dist/affiliate-disclosure/index.html`
+- `dist/contact/index.html`
+- `dist/privacy/index.html`
 - `dist/styles.css`
 - `dist/sitemap.xml`
 - `dist/robots.txt`
@@ -43,9 +47,11 @@ The build helpers live under `scripts/lib/`:
 - `books.mjs`: featured-edition and edition-order helpers
 - `schema.mjs`: metadata and structured data generation
 - `render-home.mjs`: homepage component and page rendering
+- `render-book-page.mjs`: generated detail pages for individual books
+- `render-info-page.mjs`: simple footer/legal pages
 - `validation.mjs`: source content validation before rendering
 
-Routes are represented as a small route list in `scripts/build.mjs`. The homepage is the only route today, but sitemap generation already uses the route list so future book pages can be added without rewriting the build entrypoint.
+Routes are represented as a small route list in `scripts/build.mjs`. The route list includes the homepage, all book paths from `src/content/books.json`, and simple footer/legal pages. Sitemap generation uses the same route list.
 
 Most book cover images are referenced per edition in `src/content/books.json` using Amazon image URLs resolved from each Amazon ASIN. The locally tracked cover images in `src/assets/` are used for the custom social preview image. Edition records also keep separate Amazon and Amazon AU short links so more markets can be added later without changing the card layout.
 
@@ -57,9 +63,11 @@ The build fails before rendering if required content is missing or inconsistent.
 
 - required site metadata, navigation and social image asset path
 - unique book and edition IDs
+- unique book paths ending with `/`
 - featured edition IDs that match real editions
 - required Amazon URLs, ASINs and cover image URLs
 - exactly nine sample words for the current 3x3 word grid
+- 5 to 10 adult beginner phrase samples with audio-ready keys
 - non-empty FAQ questions and answers
 
 `scripts/check.mjs` remains the generated-output smoke test after rendering.

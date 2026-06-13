@@ -1,0 +1,58 @@
+[
+  {
+    "phrase": "Maayong aga.",
+    "translation": "Good morning.",
+    "context": "Greeting",
+    "usage": "Use this when greeting family, neighbours or someone at the start of the day.",
+    "audioKey": "maayong-aga"
+  },
+  {
+    "phrase": "Maayong hapon.",
+    "translation": "Good afternoon.",
+    "context": "Greeting",
+    "usage": "A simple polite greeting for later in the day.",
+    "audioKey": "maayong-hapon"
+  },
+  {
+    "phrase": "Salamat gid.",
+    "translation": "Thank you very much.",
+    "context": "Politeness",
+    "usage": "Use this when someone helps you or gives you something.",
+    "audioKey": "salamat-gid"
+  },
+  {
+    "phrase": "Palihog.",
+    "translation": "Please.",
+    "context": "Politeness",
+    "usage": "A short, useful word for polite requests.",
+    "audioKey": "palihog"
+  },
+  {
+    "phrase": "Ako si Chanelle.",
+    "translation": "I am Chanelle.",
+    "context": "Introductions",
+    "usage": "Swap in your own name when introducing yourself.",
+    "audioKey": "ako-si-chanelle"
+  },
+  {
+    "phrase": "Kamusta ka?",
+    "translation": "How are you?",
+    "context": "Conversation",
+    "usage": "A beginner-friendly question for checking in with someone.",
+    "audioKey": "kamusta-ka"
+  },
+  {
+    "phrase": "Ini ang akon pamilya.",
+    "translation": "This is my family.",
+    "context": "Family",
+    "usage": "Useful when talking about family photos or introducing relatives.",
+    "audioKey": "ini-ang-akon-pamilya"
+  },
+  {
+    "phrase": "Diin ang merkado?",
+    "translation": "Where is the market?",
+    "context": "Everyday use",
+    "usage": "A simple location question for travel, errands and everyday conversation.",
+    "audioKey": "diin-ang-merkado"
+  }
+]

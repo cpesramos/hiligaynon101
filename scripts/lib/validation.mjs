@@ -52,6 +52,10 @@ function validateSite(site, src, errors) {
     assert(/^https:\/\/[^/]+/.test(site.url), "site.url must be an https origin.", errors);
   }
 
+  if (site.lastModified !== undefined) {
+    assert(/^\d{4}-\d{2}-\d{2}$/.test(String(site.lastModified)), "site.lastModified must use YYYY-MM-DD format.", errors);
+  }
+
   if (isNonEmptyString(site.socialImage) && !isExternalUrl(site.socialImage)) {
     const imagePath = path.join(src, site.socialImage.replace(/^\/+/, ""));
     assert(existsSync(imagePath), `site.socialImage points to a missing local asset: ${site.socialImage}.`, errors);
@@ -64,12 +68,14 @@ function validateBooks(books, src, errors) {
 
   assert(books.length > 0, "books must contain at least one book.", errors);
   assertUnique(books, "id", "books", errors);
+  assertUnique(books, "path", "books", errors);
 
   books.forEach((book, bookIndex) => {
     const prefix = `books[${bookIndex}]`;
-    for (const field of ["id", "series", "title", "subtitle", "shortTitle", "audience", "summary", "featuredEditionId"]) {
+    for (const field of ["id", "series", "title", "subtitle", "shortTitle", "path", "audience", "summary", "featuredEditionId"]) {
       requireString(book?.[field], `${prefix}.${field}`, errors);
     }
+    assert(String(book?.path || "").startsWith("/") && String(book?.path || "").endsWith("/"), `${prefix}.path must be an absolute local path ending with a slash.`, errors);
     requireArray(book?.features, `${prefix}.features`, errors);
     requireArray(book?.editions, `${prefix}.editions`, errors);
 
@@ -118,6 +124,19 @@ function validateWords(words, errors) {
   });
 }
 
+function validatePhrases(phrases, errors) {
+  requireArray(phrases, "phrases", errors);
+  if (!Array.isArray(phrases)) return;
+
+  assert(phrases.length >= 5 && phrases.length <= 10, "phrases must contain 5 to 10 adult beginner phrase samples.", errors);
+  assertUnique(phrases, "audioKey", "phrases", errors);
+  phrases.forEach((phrase, index) => {
+    for (const field of ["phrase", "translation", "context", "usage", "audioKey"]) {
+      requireString(phrase?.[field], `phrases[${index}].${field}`, errors);
+    }
+  });
+}
+
 function validateFaq(faq, errors) {
   requireArray(faq, "faq", errors);
   if (!Array.isArray(faq)) return;
@@ -129,11 +148,12 @@ function validateFaq(faq, errors) {
   });
 }
 
-export function validateContent({ site, books, words, faq, src }) {
+export function validateContent({ site, books, words, phrases, faq, src }) {
   const errors = [];
   validateSite(site, src, errors);
   validateBooks(books, src, errors);
   validateWords(words, errors);
+  validatePhrases(phrases, errors);
   validateFaq(faq, errors);
 
   if (errors.length > 0) {
