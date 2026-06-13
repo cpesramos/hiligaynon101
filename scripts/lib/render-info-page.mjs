@@ -85,7 +85,7 @@ function renderInfoPage(site, page) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     ${pageMetaTags(site, { title, description: page.description, path: page.path })}
-    <link rel="stylesheet" href="/styles.css?v=20260613-conversion-pages">
+    <link rel="stylesheet" href="/styles.css?v=20260613-book-mobile-fix-5">
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>

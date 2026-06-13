@@ -373,7 +373,7 @@ export function renderHomePage({ site, books, words, phrases, faq }) {
     ${jsonLdScript(faqSchema(faq))}
     ${jsonLdScript(phraseSchema(site, phrases))}
     ${jsonLdScript(wordSchema(site, words))}
-    <link rel="stylesheet" href="/styles.css?v=20260613-conversion-pages">
+    <link rel="stylesheet" href="/styles.css?v=20260613-book-mobile-fix-5">
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>

@@ -1283,6 +1283,11 @@ h1 {
   align-items: center;
 }
 
+.book-detail-grid > *,
+.book-page-content > * {
+  min-width: 0;
+}
+
 .book-detail-cover {
   display: grid;
   min-height: 460px;
@@ -1307,6 +1312,7 @@ h1 {
   margin-bottom: 8px;
   color: var(--ink);
   font-size: 4rem;
+  overflow-wrap: anywhere;
 }
 
 .book-detail-subtitle {
@@ -1317,6 +1323,7 @@ h1 {
   font-style: italic;
   font-weight: 800;
   line-height: 1.15;
+  overflow-wrap: anywhere;
 }
 
 .book-detail-audience {
@@ -1380,6 +1387,7 @@ h1 {
   font-family: var(--font-display);
   font-size: 2.7rem;
   line-height: 1.06;
+  overflow-wrap: anywhere;
 }
 
 .book-page-features {
@@ -1543,6 +1551,13 @@ h1 {
     font-size: 0.88rem;
   }
 
+  .wrap {
+    width: 100%;
+    max-width: 100%;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
   .hero-inner {
     min-height: 0;
     padding: 38px 0 56px;
@@ -1688,20 +1703,69 @@ h1 {
   }
 
   .book-detail-hero {
-    padding: 48px 0;
+    padding: 28px 0 40px;
+  }
+
+  .book-detail-grid {
+    gap: 22px;
+  }
+
+  .book-detail-copy {
+    order: -1;
+    width: min(100%, 358px, calc(100vw - 32px));
+    max-width: min(358px, calc(100vw - 32px));
+  }
+
+  .book-detail-cover {
+    width: min(100%, 358px, calc(100vw - 32px));
+    max-width: min(358px, calc(100vw - 32px));
+    min-height: 0;
+    padding: 18px;
+  }
+
+  .book-detail-cover img {
+    max-width: min(190px, 72%);
+    max-height: 246px;
+  }
+
+  .book-detail-actions {
+    width: min(100%, 358px, calc(100vw - 32px));
+    max-width: min(358px, calc(100vw - 32px));
+    gap: 10px;
+    margin-top: 16px;
   }
 
   .book-detail-copy h1,
   .info-page h1 {
-    font-size: 2.42rem;
+    max-width: min(358px, calc(100vw - 32px));
+    font-size: 2.06rem;
+    line-height: 1.02;
+    word-break: break-word;
   }
 
   .book-detail-subtitle {
-    font-size: 1.34rem;
+    max-width: min(358px, calc(100vw - 32px));
+    margin-bottom: 14px;
+    font-size: 1.14rem;
+    line-height: 1.18;
+    word-break: break-word;
+  }
+
+  .book-detail-audience {
+    max-width: min(358px, calc(100vw - 32px));
+    padding: 11px 12px;
+    font-size: 0.94rem;
+  }
+
+  .book-detail-copy > p:last-of-type {
+    max-width: min(358px, calc(100vw - 32px));
+    font-size: 0.98rem;
   }
 
   .book-page-content h2 {
+    max-width: min(358px, calc(100vw - 32px));
     font-size: 2.08rem;
+    word-break: break-word;
   }
 
   .info-page {
