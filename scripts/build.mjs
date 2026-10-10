@@ -4,7 +4,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderBookPage } from "./lib/render-book-page.mjs";
 import { renderHomePage } from "./lib/render-home.mjs";
-import { infoPageRoutes } from "./lib/render-info-page.mjs";
+import { infoPageRoutes, renderNotFoundPage } from "./lib/render-info-page.mjs";
+import { renderSamplesPage } from "./lib/render-samples.mjs";
 import { siteOrigin } from "./lib/urls.mjs";
 import { validateContent } from "./lib/validation.mjs";
 
@@ -56,7 +57,8 @@ async function build() {
       path: book.path,
       html: renderBookPage({ site, book })
     })),
-    ...infoPageRoutes(site)
+    ...infoPageRoutes(site),
+    { path: "/samples/", html: renderSamplesPage({ site, words, phrases }) }
   ];
 
   await rm(dist, { recursive: true, force: true });
@@ -67,6 +69,7 @@ async function build() {
   }
 
   await Promise.all(routes.map(writePage));
+  await writeFile(path.join(dist, "404.html"), renderNotFoundPage(site));
   await writeFile(path.join(dist, "sitemap.xml"), sitemapXml(site, routes));
   await writeFile(path.join(dist, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${siteOrigin(site)}/sitemap.xml\n`);
 }

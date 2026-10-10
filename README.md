@@ -28,19 +28,22 @@ The local server defaults to `http://localhost:4321`.
 
 Generated output is written to `dist/` and should not be edited by hand.
 
-Book records include their static page path. Amazon and Amazon AU purchase links live at the edition level in `src/content/books.json`, with the featured edition treated as the current recommended edition.
+Book records include their static page path, topic guide and verified paperback specifications. Amazon US and Amazon AU links each have an explicit format label at the edition level in `src/content/books.json`. Recheck the linked product before changing its format label or specifications.
 
-The build generates the homepage, one static page per book, and simple footer pages for affiliate disclosure, contact and privacy.
+The build generates the homepage, full sample collection, one page per book, footer pages and a custom `404.html`. The 404 page is excluded from the sitemap. Contact email and content modification date live in `src/data/site.json`.
 
 ## Deployment
 
-Recommended Cloudflare Pages settings:
+The existing deployment uses **Cloudflare Workers with Static Assets**, configured in `wrangler.jsonc`:
 
-- Build command: `node scripts/build.mjs`
-- Build output directory: `dist`
-- Root directory: repository root
+- Install dependencies with `npm ci`.
+- Build and validate with `npm run validate`.
+- Deploy with `npm run deploy` (requires Cloudflare authentication).
+- Preview the actual asset routing locally with `npm run preview`.
 
-Use `https://hiligaynon101.com` as the production domain once DNS is attached.
+`src/worker.mjs` redirects requests for `http://hiligaynon101.com` and `www.hiligaynon101.com` to `https://hiligaynon101.com`, preserving paths and queries. Both production hosts must remain attached to this Worker in Cloudflare. Localhost and preview hosts are left alone. The assets binding serves the generated site and returns the custom 404 page with HTTP status 404.
+
+No book-interior scans, edition-change claims, independent reviews or audio recordings are invented. Add these only with genuine source material and publication rights. Website sample practice is labelled separately from Amazon book previews.
 
 ## Review Flow
 

@@ -150,7 +150,6 @@ export function bookSchema(site, books) {
   const offerFor = (edition, url, market) => ({
     "@type": "Offer",
     url,
-    availability: "https://schema.org/InStock",
     itemCondition: "https://schema.org/NewCondition",
     seller: {
       "@type": "Organization",
@@ -174,7 +173,7 @@ export function bookSchema(site, books) {
       item: {
         "@type": "Book",
         "@id": `${siteOrigin(site)}/#book-${book.id}`,
-        url: `${siteOrigin(site)}/#${book.id}`,
+        url: absoluteUrl(site, book.path),
         name: `${book.title}: ${book.subtitle}`,
         alternateName: [`${book.shortTitle} by ${site.author}`, `${book.series} ${book.bookNumber}`],
         author: {
@@ -220,7 +219,6 @@ export function bookPageSchema(site, book) {
   const offerFor = (edition, url, market) => ({
     "@type": "Offer",
     url,
-    availability: "https://schema.org/InStock",
     itemCondition: "https://schema.org/NewCondition",
     seller: {
       "@type": "Organization",
