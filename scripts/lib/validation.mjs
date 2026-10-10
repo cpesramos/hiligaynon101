@@ -52,6 +52,9 @@ function validateSite(site, src, errors) {
     assert(/^https:\/\/[^/]+/.test(site.url), "site.url must be an https origin.", errors);
   }
 
+  requireString(site.contactEmail, "site.contactEmail", errors);
+  assert(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.contactEmail || ""), "site.contactEmail must be an email address.", errors);
+
   if (site.lastModified !== undefined) {
     assert(/^\d{4}-\d{2}-\d{2}$/.test(String(site.lastModified)), "site.lastModified must use YYYY-MM-DD format.", errors);
   }
@@ -84,6 +87,19 @@ function validateBooks(books, src, errors) {
       book.features.forEach((feature, featureIndex) => requireString(feature, `${prefix}.features[${featureIndex}]`, errors));
     }
 
+    const details = book?.details;
+    for (const field of ["practice", "howToUse", "published", "isbn", "dimensions"]) {
+      requireString(details?.[field], `${prefix}.details.${field}`, errors);
+    }
+    assert(Number.isInteger(details?.paperbackPages) && details.paperbackPages > 0, `${prefix}.details.paperbackPages must be a positive integer.`, errors);
+    assert(/^\d{13}$/.test(details?.isbn || ""), `${prefix}.details.isbn must be an ISBN-13.`, errors);
+    assert(/^\d{4}-\d{2}-\d{2}$/.test(details?.published || "") && Number.isFinite(Date.parse(details?.published)), `${prefix}.details.published must be a valid date.`, errors);
+    requireArray(details?.topics, `${prefix}.details.topics`, errors);
+    if (Array.isArray(details?.topics)) {
+      assert(details.topics.length > 0, `${prefix}.details.topics must not be empty.`, errors);
+      details.topics.forEach((topic, index) => requireString(topic, `${prefix}.details.topics[${index}]`, errors));
+    }
+
     if (!Array.isArray(book?.editions)) return;
 
     assert(book.editions.length > 0, `${prefix}.editions must contain at least one edition.`, errors);
@@ -94,8 +110,11 @@ function validateBooks(books, src, errors) {
 
     book.editions.forEach((edition, editionIndex) => {
       const editionPrefix = `${prefix}.editions[${editionIndex}]`;
-      for (const field of ["id", "label", "asin", "amazonAsin", "amazonAuAsin", "format", "amazonUrl", "amazonAuUrl", "image"]) {
+      for (const field of ["id", "label", "asin", "amazonAsin", "amazonAuAsin", "amazonFormat", "amazonAuFormat", "amazonUrl", "amazonAuUrl", "image"]) {
         requireString(edition?.[field], `${editionPrefix}.${field}`, errors);
+      }
+      for (const field of ["amazonFormat", "amazonAuFormat"]) {
+        assert(["Kindle", "Paperback"].includes(edition?.[field]), `${editionPrefix}.${field} must identify the linked format.`, errors);
       }
       for (const field of ["amazonUrl", "amazonAuUrl", "image"]) {
         if (isNonEmptyString(edition?.[field])) {

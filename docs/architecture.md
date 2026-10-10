@@ -20,7 +20,7 @@ flowchart TD
   G["scripts/lib validation and render modules"] --> B
   H["src/assets"] --> B
   B --> D["dist generated website"]
-  D --> E["Cloudflare Pages"]
+  D --> E["Cloudflare Workers Static Assets"]
   F["GitHub pull request"] --> A
   F --> C
   F --> G
@@ -36,6 +36,8 @@ flowchart TD
 - `dist/affiliate-disclosure/index.html`
 - `dist/contact/index.html`
 - `dist/privacy/index.html`
+- `dist/samples/index.html`
+- `dist/404.html` (excluded from the sitemap)
 - `dist/styles.css`
 - `dist/sitemap.xml`
 - `dist/robots.txt`
@@ -48,12 +50,14 @@ The build helpers live under `scripts/lib/`:
 - `schema.mjs`: metadata and structured data generation
 - `render-home.mjs`: homepage component and page rendering
 - `render-book-page.mjs`: generated detail pages for individual books
-- `render-info-page.mjs`: simple footer/legal pages
+- `render-info-page.mjs`: footer pages and missing-page recovery
+- `render-samples.mjs`: sample cards and the full sample collection
+- `components.mjs`: shared navigation, footer, cover images and format-labelled purchase links
 - `validation.mjs`: source content validation before rendering
 
-Routes are represented as a small route list in `scripts/build.mjs`. The route list includes the homepage, all book paths from `src/content/books.json`, and simple footer/legal pages. Sitemap generation uses the same route list.
+Routes are represented as a small route list in `scripts/build.mjs`. The route list includes the homepage, all book paths, the full sample collection and footer pages. Sitemap generation uses the same route list. The 404 page is generated separately.
 
-Most book cover images are referenced per edition in `src/content/books.json` using Amazon image URLs resolved from each Amazon ASIN. The locally tracked cover images in `src/assets/` are used for the custom social preview image. Edition records also keep separate Amazon and Amazon AU short links so more markets can be added later without changing the card layout.
+Current book covers use tracked images in `src/assets/`; earlier edition records retain Amazon image URLs. The local covers are also used in the social preview image. Edition records also keep separate Amazon and Amazon AU short links so more markets can be added later without changing the card layout.
 
 `scripts/check.mjs` verifies that the generated site has core SEO metadata, edition data, no empty local links and no obvious draft markers.
 
@@ -65,7 +69,9 @@ The build fails before rendering if required content is missing or inconsistent.
 - unique book and edition IDs
 - unique book paths ending with `/`
 - featured edition IDs that match real editions
-- required Amazon URLs, ASINs and cover image URLs
+- required Amazon URLs, ASINs, explicit linked-format labels and cover image URLs
+- topic guides, practice details and paperback specifications
+- valid public contact email
 - exactly nine sample words for the current 3x3 word grid
 - 5 to 10 adult beginner phrase samples with audio-ready keys
 - non-empty FAQ questions and answers
@@ -80,11 +86,8 @@ When the preview needs to change, update the SVG and regenerate the PNG at 1200x
 
 ## Deployment
 
-Use Cloudflare Pages with:
+Use the existing `wrangler.jsonc` configuration. `src/worker.mjs` runs before asset routing to redirect the HTTP and www production aliases. `env.ASSETS.fetch` serves the generated pages and uses `not_found_handling: "404-page"`. Both production hosts must be attached in Cloudflare.
 
-```txt
-Build command: node scripts/build.mjs
-Build output: dist
-```
+Run `npm ci`, `npm run validate`, then `npm run deploy`. `npm run preview` exercises the Worker and assets locally. Redirect tests run with `npm test`.
 
 The production URL should be `https://hiligaynon101.com`.

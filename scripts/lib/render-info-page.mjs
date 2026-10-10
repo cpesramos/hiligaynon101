@@ -1,42 +1,6 @@
 import { attr, escapeHtml } from "./html.mjs";
 import { pageMetaTags } from "./schema.mjs";
-
-function navHref(href) {
-  return href.startsWith("#") ? `/${href}` : href;
-}
-
-function renderNav(site) {
-  return `
-    <header class="site-header">
-      <nav class="nav" aria-label="Primary navigation">
-        <a class="brand" href="/" aria-label="${attr(site.name)} home">
-          <span class="brand-mark" aria-hidden="true">H</span>
-          <span>${escapeHtml(site.name)}</span>
-        </a>
-        <div class="nav-links">
-          ${site.navigation.map((item) => `<a href="${attr(navHref(item.href))}">${escapeHtml(item.label)}</a>`).join("")}
-        </div>
-      </nav>
-    </header>
-  `;
-}
-
-function renderFooter(site) {
-  return `
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <p>Copyright ${new Date().getFullYear()} ${escapeHtml(site.author)}. ${escapeHtml(site.name)}.</p>
-        <nav class="footer-links" aria-label="Footer links">
-          <a href="/">Home</a>
-          <a href="/affiliate-disclosure/">Affiliate disclosure</a>
-          <a href="/contact/">Contact</a>
-          <a href="/privacy/">Privacy</a>
-        </nav>
-        <p class="footer-note">${escapeHtml(site.affiliateDisclosure)}</p>
-      </div>
-    </footer>
-  `;
-}
+import { renderFooter, renderNav, stylesheet } from "./components.mjs";
 
 const pages = [
   {
@@ -59,7 +23,7 @@ const pages = [
     heading: "Contact Hiligaynon 101",
     body: [
       "For book availability, delivery or order questions, use the relevant Amazon listing because fulfilment is handled by Amazon.",
-      "For website, rights or book-series enquiries, use the public author and book channels associated with Hiligaynon 101 by Chanelle Ramos.",
+      "For website, rights or book-series enquiries, email Chanelle Ramos using the address below.",
       "This static site does not collect messages through an on-site form."
     ]
   },
@@ -85,7 +49,7 @@ function renderInfoPage(site, page) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     ${pageMetaTags(site, { title, description: page.description, path: page.path })}
-    <link rel="stylesheet" href="/styles.css?v=20260613-book-mobile-fix-5">
+    ${stylesheet(site)}
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -96,6 +60,7 @@ function renderInfoPage(site, page) {
           <p class="eyebrow">${escapeHtml(page.eyebrow)}</p>
           <h1>${escapeHtml(page.heading)}</h1>
           ${page.body.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+          ${page.path === "/contact/" ? `<p><a class="contact-email" href="mailto:${attr(site.contactEmail)}">${escapeHtml(site.contactEmail)}</a></p>` : ""}
         </div>
       </section>
     </main>
@@ -109,4 +74,14 @@ export function infoPageRoutes(site) {
     path: page.path,
     html: renderInfoPage(site, page)
   }));
+}
+
+export function renderNotFoundPage(site) {
+  const html = renderInfoPage(site, {
+    path: "/404.html", title: "Page not found", description: "Find your way back to the Hiligaynon 101 books.",
+    eyebrow: "404 · Page not found", heading: "Let’s get you back on track.",
+    body: ["This page may have moved, or the address may be incomplete."]
+  });
+  return html.replace('content="index,follow,max-image-preview:large"', 'content="noindex,follow"')
+    .replace('</main>', '<div class="wrap recovery-links"><a class="button" href="/">Go to the homepage</a><a class="button secondary" href="/#books">Browse the books</a><a href="/contact/">Report a broken link</a></div></main>');
 }

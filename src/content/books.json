@@ -23,10 +23,11 @@
         "asin": "B0CVNQ9192",
         "amazonAsin": "B0CVNQ9192",
         "amazonAuAsin": "B0CVNQ9192",
-        "format": "Amazon listings",
         "amazonUrl": "https://amzn.to/4ujalZO",
         "amazonAuUrl": "https://amzn.to/4do9gtS",
-        "image": "https://images-na.ssl-images-amazon.com/images/P/B0CVNQ9192.01._SCLZZZZZZZ_SX500_.jpg"
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0CVNQ9192.01._SCLZZZZZZZ_SX500_.jpg",
+        "amazonFormat": "Paperback",
+        "amazonAuFormat": "Paperback"
       },
       {
         "id": "beginner-second",
@@ -34,13 +35,28 @@
         "asin": "B0GT5SBYFT",
         "amazonAsin": "B0GT5SBYFT",
         "amazonAuAsin": "B0GT8GJPT8",
-        "format": "Amazon listings",
         "amazonUrl": "https://amzn.to/4dnSknb",
         "amazonAuUrl": "https://amzn.to/4nEFGDX",
         "localImage": "/assets/cover-beginner-second.jpg",
-        "image": "https://images-na.ssl-images-amazon.com/images/P/B0GT5SBYFT.01._SCLZZZZZZZ_SX500_.jpg"
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0GT5SBYFT.01._SCLZZZZZZZ_SX500_.jpg",
+        "amazonFormat": "Kindle",
+        "amazonAuFormat": "Paperback"
       }
-    ]
+    ],
+    "details": {
+      "topics": [
+        "Sounds and spelling patterns",
+        "Greetings, politeness and numbers",
+        "Pronouns, adjectives and verbs",
+        "Building simple sentences"
+      ],
+      "practice": "Guided practice in each chapter includes suggested answers, so you can check your work as you go.",
+      "howToUse": "Work through the foundations in order, say the examples aloud, then try the practice before checking the suggested answers.",
+      "paperbackPages": 55,
+      "published": "2026-03-19",
+      "isbn": "9798252851464",
+      "dimensions": "15.24 × 22.86 cm"
+    }
   },
   {
     "id": "practical-conversations",
@@ -66,10 +82,11 @@
         "asin": "B0F3CPBSK5",
         "amazonAsin": "B0F3CPBSK5",
         "amazonAuAsin": "B0F3CPBSK5",
-        "format": "Amazon listings",
         "amazonUrl": "https://amzn.to/42J5FjV",
         "amazonAuUrl": "https://amzn.to/43n7Mdk",
-        "image": "https://images-na.ssl-images-amazon.com/images/P/B0F3CPBSK5.01._SCLZZZZZZZ_SX500_.jpg"
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0F3CPBSK5.01._SCLZZZZZZZ_SX500_.jpg",
+        "amazonFormat": "Paperback",
+        "amazonAuFormat": "Paperback"
       },
       {
         "id": "conversations-second",
@@ -77,13 +94,28 @@
         "asin": "B0GT5TTQWS",
         "amazonAsin": "B0GT5TTQWS",
         "amazonAuAsin": "B0GT8R2LMB",
-        "format": "Amazon listings",
         "amazonUrl": "https://amzn.to/4ukPxRF",
         "amazonAuUrl": "https://amzn.to/4dCO6qC",
         "localImage": "/assets/cover-conversations-second.jpg",
-        "image": "https://images-na.ssl-images-amazon.com/images/P/B0GT5TTQWS.01._SCLZZZZZZZ_SX500_.jpg"
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0GT5TTQWS.01._SCLZZZZZZZ_SX500_.jpg",
+        "amazonFormat": "Kindle",
+        "amazonAuFormat": "Paperback"
       }
-    ]
+    ],
+    "details": {
+      "topics": [
+        "Introductions, small talk and everyday exchanges",
+        "Shopping, food, transport and directions",
+        "Family, time and feelings",
+        "Work, school and daily routines"
+      ],
+      "practice": "Chapter exercises and a quick survival guide support practice with everyday situations.",
+      "howToUse": "Use this after the beginner book or alongside it. Pick a situation, practise both sides of the dialogue, and return to the phrases you need most.",
+      "paperbackPages": 109,
+      "published": "2026-03-19",
+      "isbn": "9798252852270",
+      "dimensions": "15.24 × 22.86 cm"
+    }
   },
   {
     "id": "kids-first-words",
@@ -94,7 +126,7 @@
     "shortTitle": "My First Words Colouring Book",
     "path": "/kids/my-first-words-colouring-book/",
     "audience": "Children ages 3-6 learning with a parent, grandparent or carer",
-    "summary": "A colourful first-words activity book where children learn simple Hiligaynon words through familiar pictures, colouring and repeat-after-me practice.",
+    "summary": "A first-words activity book where children learn simple Hiligaynon words through familiar pictures, colouring and repeat-after-me practice.",
     "seoDescription": "A Hiligaynon colouring book for kids ages 3-6, with simple first words, English meanings and family-led colouring practice.",
     "features": [
       "Simple Hiligaynon words paired with English meanings",
@@ -109,13 +141,28 @@
         "asin": "B0H266YQC6",
         "amazonAsin": "B0H266YQC6",
         "amazonAuAsin": "B0H266YQC6",
-        "format": "Amazon listings",
         "amazonUrl": "https://amzn.to/4dnSj2B",
         "amazonAuUrl": "https://amzn.to/4dTLAO2",
         "localImage": "/assets/cover-kids-current.jpg",
-        "image": "https://images-na.ssl-images-amazon.com/images/P/B0H266YQC6.01._SCLZZZZZZZ_SX500_.jpg"
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0H266YQC6.01._SCLZZZZZZZ_SX500_.jpg",
+        "amazonFormat": "Paperback",
+        "amazonAuFormat": "Paperback"
       }
-    ]
+    ],
+    "details": {
+      "topics": [
+        "Everyday words for family and home",
+        "Familiar things such as the sun, water and toys",
+        "Body parts and household objects",
+        "Hiligaynon words paired with English meanings"
+      ],
+      "practice": "Large black-and-white colouring pages, mini activities, review pages, family practice prompts and a completion certificate.",
+      "howToUse": "An adult helper reads the word and meaning, then invites the child to say it and colour the picture. Keep sessions short and repeat familiar words together.",
+      "paperbackPages": 72,
+      "published": "2026-05-15",
+      "isbn": "9798197093851",
+      "dimensions": "21.59 × 27.94 cm"
+    }
   },
   {
     "id": "kids-animals-food-nature",
@@ -141,12 +188,27 @@
         "asin": "B0H4FVZPKC",
         "amazonAsin": "B0H4FVZPKC",
         "amazonAuAsin": "B0H4FVZPKC",
-        "format": "Amazon listings",
         "amazonUrl": "https://amzn.to/4aBIkES",
         "amazonAuUrl": "https://amzn.to/4v1ZXpO",
         "localImage": "/assets/cover-kids-animals-current.jpg",
-        "image": "https://images-na.ssl-images-amazon.com/images/P/B0H4FVZPKC.01._SCLZZZZZZZ_SX500_.jpg"
+        "image": "https://images-na.ssl-images-amazon.com/images/P/B0H4FVZPKC.01._SCLZZZZZZZ_SX500_.jpg",
+        "amazonFormat": "Paperback",
+        "amazonAuFormat": "Paperback"
       }
-    ]
+    ],
+    "details": {
+      "topics": [
+        "28 Hiligaynon words with English meanings",
+        "Animal vocabulary",
+        "Food vocabulary",
+        "Words about nature"
+      ],
+      "practice": "Large black-and-white colouring pages, mini activities, review pages and a completion certificate.",
+      "howToUse": "An adult helper says each word while the child colours and repeats it. Children do not need to read independently; use the themes in any order.",
+      "paperbackPages": 72,
+      "published": "2026-06-05",
+      "isbn": "9798180253941",
+      "dimensions": "21.59 × 27.94 cm"
+    }
   }
 ]

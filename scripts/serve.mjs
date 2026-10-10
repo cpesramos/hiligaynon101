@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import { createReadStream, existsSync } from "node:fs";
-import { stat } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -14,6 +14,7 @@ const contentTypes = {
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".png": "image/png",
+  ".jpg": "image/jpeg",
   ".svg": "image/svg+xml; charset=utf-8",
   ".txt": "text/plain; charset=utf-8",
   ".xml": "application/xml; charset=utf-8"
@@ -26,19 +27,32 @@ function send(res, statusCode, body, contentType = "text/plain; charset=utf-8") 
 
 const server = createServer(async (req, res) => {
   try {
+    if (!["GET", "HEAD"].includes(req.method)) {
+      res.writeHead(405, { allow: "GET, HEAD" });
+      res.end();
+      return;
+    }
     const url = new URL(req.url || "/", `http://localhost:${port}`);
-    let pathname = decodeURIComponent(url.pathname);
+    let pathname;
+    try {
+      pathname = decodeURIComponent(url.pathname);
+    } catch {
+      send(res, 400, "Invalid address");
+      return;
+    }
     if (pathname.endsWith("/")) pathname = `${pathname}index.html`;
     const filePath = path.normalize(path.join(dist, pathname));
 
-    if (!filePath.startsWith(dist) || !existsSync(filePath)) {
-      send(res, 404, "Not found");
+    if (!filePath.startsWith(`${dist}${path.sep}`) || !existsSync(filePath)) {
+      const html = await readFile(path.join(dist, "404.html"), "utf8");
+      send(res, 404, req.method === "HEAD" ? "" : html, contentTypes[".html"]);
       return;
     }
 
     const info = await stat(filePath);
     if (!info.isFile()) {
-      send(res, 404, "Not found");
+      const html = await readFile(path.join(dist, "404.html"), "utf8");
+      send(res, 404, req.method === "HEAD" ? "" : html, contentTypes[".html"]);
       return;
     }
 
@@ -46,9 +60,11 @@ const server = createServer(async (req, res) => {
       "cache-control": "no-store",
       "content-type": contentTypes[path.extname(filePath)] || "application/octet-stream"
     });
-    createReadStream(filePath).pipe(res);
+    if (req.method === "HEAD") res.end();
+    else createReadStream(filePath).pipe(res);
   } catch (error) {
-    send(res, 500, error.message);
+    console.error(error);
+    send(res, 500, "Unable to load this page");
   }
 });
 

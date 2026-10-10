@@ -6,7 +6,8 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
-    "validate": "npm run build && npm run check",
+    "test": "node --test scripts/worker.test.mjs",
+    "validate": "npm run build && npm run check && npm test",
     "dev": "node scripts/serve.mjs",
     "deploy": "wrangler deploy",
     "preview": "wrangler dev"
