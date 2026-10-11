@@ -1,7 +1,7 @@
-import { featuredEdition, orderedEditions } from "./books.mjs";
+import { featuredEdition, orderedEditions, previewLink } from "./books.mjs";
 import { attr, escapeHtml, jsonLdScript } from "./html.mjs";
 import { bookPageSchema, pageMetaTags } from "./schema.mjs";
-import { displayImage, imageSizeAttrs, renderFooter, renderMarketLinks, renderNav, stylesheet } from "./components.mjs";
+import { displayImage, imageSizeAttrs, renderFooter, renderMarketLinks, renderNav, renderPreviewLink, stylesheet } from "./components.mjs";
 
 function renderEarlierEditions(book, currentEdition) {
   const earlier = orderedEditions(book).filter(edition => edition.id !== currentEdition.id);
@@ -15,6 +15,7 @@ function renderEarlierEditions(book, currentEdition) {
 export function renderBookPage({ site, book }) {
   const edition = featuredEdition(book);
   const details = book.details;
+  const preview = previewLink(edition);
   const published = new Intl.DateTimeFormat("en-AU", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(details.published));
   return `<!doctype html><html lang="en-AU"><head>
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,6 +32,7 @@ export function renderBookPage({ site, book }) {
           <p class="book-detail-audience">${escapeHtml(book.audience)}</p><p>${escapeHtml(book.summary)}</p>
           <div class="book-detail-actions"><div class="current-edition-callout"><span>Buy current edition</span><strong>${escapeHtml(edition.label)}</strong></div>
             ${renderMarketLinks(book, edition)}
+            ${renderPreviewLink(book, edition)}
             <p class="buying-note">Choose the store for your country. These links open the formats shown; Amazon may offer other formats. Delivery and Kindle eligibility depend on your region and account.</p>
           </div>
         </div>
@@ -43,8 +45,7 @@ export function renderBookPage({ site, book }) {
           <h3>Practice and activities</h3><p>${escapeHtml(details.practice)}</p>
           <h3>How to use it</h3><p>${escapeHtml(details.howToUse)}</p>
           <h3>Check the interior before buying</h3>
-          <p>Open the Amazon listing and look for “Read sample” where available. Preview access varies by format, marketplace and device.</p>
-          <a class="book-detail-link" href="${attr(edition.amazonAuUrl)}" rel="sponsored">Check the Amazon AU listing</a>
+          ${preview ? `<p>Amazon’s current ${escapeHtml(preview.format)} listing has a “Read sample” control. Open the preview link, then choose “Read sample” to inspect sample pages. Availability can vary by device and marketplace.</p>${renderPreviewLink(book, edition)}` : `<p>Amazon does not always show interior previews for these colouring books. If “Read sample” is available on your listing, use it to check the pictures and activities before buying.</p><div class="text-links"><a class="book-detail-link" href="${attr(edition.amazonUrl)}" rel="sponsored">Check Amazon US</a><a class="book-detail-link" href="${attr(edition.amazonAuUrl)}" rel="sponsored">Check Amazon AU</a></div>`}
         </div>
         <aside class="book-page-aside" aria-label="Paperback specifications">
           <h2>Paperback details</h2>

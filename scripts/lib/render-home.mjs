@@ -1,7 +1,7 @@
 import { featuredEdition } from "./books.mjs";
 import { attr, escapeHtml, jsonLdScript } from "./html.mjs";
 import { bookSchema, faqSchema, metaTags, phraseSchema, wordSchema } from "./schema.mjs";
-import { displayImage, imageSizeAttrs, renderFooter, renderMarketLinks, renderNav, stylesheet } from "./components.mjs";
+import { displayImage, imageSizeAttrs, renderFooter, renderMarketLinks, renderNav, renderPreviewLink, stylesheet } from "./components.mjs";
 import { renderPhraseCard, renderWordCard } from "./render-samples.mjs";
 
 const bookPath = (book) => book.path;
@@ -16,6 +16,7 @@ function renderBookCard(book) {
       <p class="book-summary">${escapeHtml(book.summary)}</p>
       <p class="book-facts-line">${book.details.paperbackPages} paperback pages · ${escapeHtml(edition.label)}</p>
       ${renderMarketLinks(book, edition)}
+      ${renderPreviewLink(book, edition)}
       <a class="book-detail-link" href="${attr(book.path)}">Topics, practice &amp; book details</a>
     </div>
   </article>`;
@@ -134,7 +135,7 @@ export function renderHomePage({ site, books, words, phrases, faq }) {
       </div>
     </div></section>
     <section class="section surface" id="samples"><div class="wrap">
-      <div class="section-header"><div><p class="eyebrow">Try a little Hiligaynon</p><h2>Useful phrases and first words.</h2></div><p>These are website practice examples. To check a book’s interior, look for “Read sample” on its Amazon listing where available.</p></div>
+      <div class="section-header"><div><p class="eyebrow">Try a little Hiligaynon</p><h2>Useful phrases and first words.</h2></div><p>Try Hiligaynon words and phrases with English meanings. The book pages also link to Amazon’s current edition previews; these website examples are separate practice.</p></div>
       <div class="sample-group"><h3>Adult beginner phrases</h3><div class="phrase-grid">${samplePhrases.map(renderPhraseCard).join("")}</div></div>
       <div class="sample-group" id="words"><h3>Kids first words</h3><div class="words-grid">${sampleWords.map(renderWordCard).join("")}</div></div>
       <a class="button secondary" href="/samples/">See all phrases and words</a>

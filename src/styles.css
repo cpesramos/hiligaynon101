@@ -11,7 +11,7 @@
   --sun: #e8b338;
   --coral: #b94030;
   --leaf: #287557;
-  --sky: #237a9b;
+  --sky: #226e8c;
   --plum: #65518f;
   --line: #d9ded5;
   --line-strong: #bdc8bd;
@@ -28,6 +28,7 @@
 }
 
 html {
+  scroll-padding-top: 88px;
   scroll-behavior: smooth;
 }
 
@@ -430,9 +431,12 @@ h1 {
   padding: 76px 0;
 }
 
-.section[id],
-.book-card[id] {
-  scroll-margin-top: 88px;
+[id] {
+  scroll-margin-top: 24px;
+}
+
+a, button, summary {
+  scroll-margin-block: 16px;
 }
 
 .section.surface {
@@ -768,9 +772,13 @@ h1 {
   color: #fffaf0;
   font-size: 0.84rem;
   font-weight: 950;
-  line-height: 1;
+  line-height: 1.25;
   text-decoration: none;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .edition-button.secondary {
@@ -1803,7 +1811,6 @@ h1 {
 
 
 /* Compact comparison and accessible, fully visible navigation. */
-[id] { scroll-margin-top: 100px; }
 :focus-visible { outline: 3px solid var(--sky); outline-offset: 4px; }
 .hero :focus-visible, .site-footer :focus-visible { outline-color: var(--sun); }
 .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1837,10 +1844,9 @@ h1 {
   .compact-book { grid-template-columns: 100px minmax(0, 1fr); }
   .compact-book .book-visual { padding: 12px; }
   .compact-book .book-body { padding: 18px; }
-  .compact-book .edition-actions { grid-template-columns: 1fr; }
+  .compact-book .edition-actions { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 680px) {
-  [id] { scroll-margin-top: 190px; }
   .book-grid { grid-template-columns: 1fr; }
   .compact-book { grid-template-columns: 100px minmax(0, 1fr); }
   .compact-book h3 { font-size: 1.2rem; }
@@ -1850,6 +1856,13 @@ h1 {
   .book-page-content h2 { font-size: 2rem; }
   .book-page-aside h2 { font-size: 1.6rem; }
 }
+
+@media (max-width: 680px), (max-height: 480px) {
+  .site-header { position: static; }
+  html { scroll-padding-top: 0; }
+}
+
+.preview-note { margin: 8px 0 0; color: var(--muted); font-size: 0.92rem; }
 
 @media (prefers-reduced-motion: reduce) {
   html {

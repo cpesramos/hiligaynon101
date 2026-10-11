@@ -28,7 +28,7 @@ The local server defaults to `http://localhost:4321`.
 
 Generated output is written to `dist/` and should not be edited by hand.
 
-Book records include their static page path, topic guide and verified paperback specifications. Amazon US and Amazon AU links each have an explicit format label at the edition level in `src/content/books.json`. Recheck the linked product before changing its format label or specifications.
+Book records include their static page path, topic guide and verified paperback specifications. Amazon US and Amazon AU links each have an explicit format label at the edition level in `src/content/books.json`. Optional `additionalLinks` add independently verified country/format choices. `previewMarket` and `previewFormat` identify a verified current listing with a “Read sample” control, and `contentLanguages` distinguishes bilingual book/sample content from the English website interface. Recheck the linked product before changing its format label or specifications.
 
 The build generates the homepage, full sample collection, one page per book, footer pages and a custom `404.html`. The 404 page is excluded from the sitemap. Contact email and content modification date live in `src/data/site.json`.
 
@@ -38,7 +38,7 @@ The existing deployment uses **Cloudflare Workers with Static Assets**, configur
 
 - Install dependencies with `npm ci`.
 - Build and validate with `npm run validate`.
-- Deploy with `npm run deploy` (requires Cloudflare authentication).
+- Deploy with `npm run deploy` (requires Cloudflare authentication). Its `predeploy` hook rebuilds and validates the site automatically, and stops publication if checks fail.
 - Preview the actual asset routing locally with `npm run preview`.
 
 `src/worker.mjs` redirects requests for `http://hiligaynon101.com` and `www.hiligaynon101.com` to `https://hiligaynon101.com`, preserving paths and queries. Both production hosts must remain attached to this Worker in Cloudflare. Localhost and preview hosts are left alone. The assets binding serves the generated site and returns the custom 404 page with HTTP status 404.
