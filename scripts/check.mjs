@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { purchaseLinks, previewLink } from "./lib/books.mjs";
 import { escapeHtml } from "./lib/html.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -44,7 +45,14 @@ async function check() {
       assert(html.includes(marker), `${file}: missing ${marker}`);
     }
     for (const marker of ["TODO", "Lorem ipsum", "FIXME", "schema.org/InStock"]) assert(!html.includes(marker), `${file}: unsupported or unfinished content: ${marker}`);
-    for (const match of html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)) JSON.parse(match[1]);
+    for (const match of html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)) {
+      const checkLanguage = (node) => {
+        if (!node || typeof node !== "object") return;
+        if (["Book", "DefinedTermSet"].includes(node["@type"])) assert.deepEqual(node.inLanguage, site.contentLanguages, `${file}: bilingual content languages are missing`);
+        Object.values(node).forEach(value => Array.isArray(value) ? value.forEach(checkLanguage) : checkLanguage(value));
+      };
+      checkLanguage(JSON.parse(match[1]));
+    }
     for (const match of html.matchAll(/\b(?:href|src)="([^"]+)"/g)) {
       const reference = match[1].replaceAll("&amp;", "&");
       if (!reference.startsWith("/") && !reference.startsWith("#")) continue;
@@ -68,7 +76,9 @@ async function check() {
     const html = pages.get(outputFile(book.path));
     assert(html.includes(String(book.details.paperbackPages)) && html.includes(book.details.isbn), `Missing paperback facts for ${book.id}`);
     for (const edition of book.editions) {
-      for (const [market, format, url] of [["Amazon US", edition.amazonFormat, edition.amazonUrl], ["Amazon AU", edition.amazonAuFormat, edition.amazonAuUrl]]) {
+      const preview = previewLink(edition);
+      if (preview) assert(html.includes(`Preview on ${preview.market} · ${preview.format}`) && html.includes("Read sample"), `${book.id}: missing instructions for the verified preview`);
+      for (const { market, format, url } of purchaseLinks(edition)) {
         assert(html.includes(`href="${url}"`) && html.includes(`${market} · ${format}`), `${book.id}: purchase link must show its market and format`);
       }
     }

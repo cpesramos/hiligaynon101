@@ -18,7 +18,7 @@ export function renderSamplesPage({ site, words, phrases }) {
   </head><body><a class="skip-link" href="#main-content">Skip to main content</a>${renderNav(site)}
     <main id="main-content"><section class="section"><div class="wrap">
       <p class="eyebrow">Sample practice</p><h1 class="samples-title">A little Hiligaynon, every day.</h1>
-      <p class="samples-intro">Website practice examples with English meanings. These are not scans of book pages. Ask a Hiligaynon-speaking family member or friend to practise with you; wording can vary by speaker and place.</p>
+      <p class="samples-intro">Website practice examples with English meanings. These are not scans of book pages. Pronunciation recordings are not available yet. Ask a Hiligaynon-speaking family member or friend to practise with you; wording can vary by speaker and place.</p>
       <div class="sample-group"><h2>Adult beginner phrases</h2><div class="phrase-grid">${phrases.map(renderPhraseCard).join("")}</div></div>
       <div class="sample-group" id="words"><h2>Kids first words</h2><div class="words-grid">${words.map(renderWordCard).join("")}</div></div>
       <a class="button secondary" href="/#books">Find a book for more practice</a>

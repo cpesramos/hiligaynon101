@@ -183,7 +183,7 @@ export function bookSchema(site, books) {
         publisher: {
           "@id": `${siteOrigin(site)}/#organization`
         },
-        inLanguage: site.language,
+        inLanguage: site.contentLanguages,
         genre: ["Language learning", "Hiligaynon", "Ilonggo"],
         keywords: [book.series, book.shortTitle, "Hiligaynon", "Ilonggo", "Chanelle Ramos"].join(", "),
         audience: book.audience,
@@ -204,6 +204,7 @@ export function bookSchema(site, books) {
               value: edition.amazonAuAsin
             }
           ],
+          inLanguage: site.contentLanguages,
           image: editionImage(edition),
           url: edition.amazonUrl,
           sameAs: [edition.amazonUrl, edition.amazonAuUrl],
@@ -242,7 +243,7 @@ export function bookPageSchema(site, book) {
         publisher: {
           "@id": `${siteOrigin(site)}/#organization`
         },
-        inLanguage: site.language,
+        inLanguage: site.contentLanguages,
         genre: ["Language learning", "Hiligaynon", "Ilonggo"],
         keywords: [book.series, book.shortTitle, "Hiligaynon", "Ilonggo", "Chanelle Ramos"].join(", "),
         audience: book.audience,
@@ -263,6 +264,7 @@ export function bookPageSchema(site, book) {
               value: edition.amazonAuAsin
             }
           ],
+          inLanguage: site.contentLanguages,
           image: editionImage(edition),
           url: edition.amazonUrl,
           sameAs: [edition.amazonUrl, edition.amazonAuUrl],
@@ -298,7 +300,7 @@ export function phraseSchema(site, phrases) {
     "@type": "DefinedTermSet",
     name: "Sample Hiligaynon phrases for adult beginners",
     description: "Beginner-friendly Hiligaynon phrases featured on the Hiligaynon 101 website.",
-    inLanguage: site.language,
+    inLanguage: site.contentLanguages,
     hasDefinedTerm: phrases.map((phrase) => ({
       "@type": "DefinedTerm",
       name: phrase.phrase,
@@ -314,7 +316,7 @@ export function wordSchema(site, words) {
     "@type": "DefinedTermSet",
     name: "Sample Hiligaynon words for kids",
     description: "Child-friendly Hiligaynon words featured on the Hiligaynon 101 website.",
-    inLanguage: site.language,
+    inLanguage: site.contentLanguages,
     hasDefinedTerm: words.map((word) => ({
       "@type": "DefinedTerm",
       name: word.word,

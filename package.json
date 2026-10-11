@@ -10,7 +10,8 @@
     "validate": "npm run build && npm run check && npm test",
     "dev": "node scripts/serve.mjs",
     "deploy": "wrangler deploy",
-    "preview": "wrangler dev"
+    "preview": "wrangler dev",
+    "predeploy": "npm run validate"
   },
   "devDependencies": {
     "wrangler": "^4.93.0"

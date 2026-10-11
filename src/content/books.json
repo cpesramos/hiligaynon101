@@ -40,7 +40,21 @@
         "localImage": "/assets/cover-beginner-second.jpg",
         "image": "https://images-na.ssl-images-amazon.com/images/P/B0GT5SBYFT.01._SCLZZZZZZZ_SX500_.jpg",
         "amazonFormat": "Kindle",
-        "amazonAuFormat": "Paperback"
+        "amazonAuFormat": "Paperback",
+        "additionalLinks": [
+          {
+            "market": "Amazon US",
+            "format": "Paperback",
+            "url": "https://www.amazon.com/dp/B0GT8GJPT8?tag=hiligaynon101-20"
+          },
+          {
+            "market": "Amazon AU",
+            "format": "Kindle",
+            "url": "https://www.amazon.com.au/dp/B0GT5SBYFT?tag=hiligaynon101-22"
+          }
+        ],
+        "previewMarket": "Amazon AU",
+        "previewFormat": "Kindle"
       }
     ],
     "details": {
@@ -99,7 +113,21 @@
         "localImage": "/assets/cover-conversations-second.jpg",
         "image": "https://images-na.ssl-images-amazon.com/images/P/B0GT5TTQWS.01._SCLZZZZZZZ_SX500_.jpg",
         "amazonFormat": "Kindle",
-        "amazonAuFormat": "Paperback"
+        "amazonAuFormat": "Paperback",
+        "additionalLinks": [
+          {
+            "market": "Amazon US",
+            "format": "Paperback",
+            "url": "https://www.amazon.com/dp/B0GT8R2LMB?tag=hiligaynon101-20"
+          },
+          {
+            "market": "Amazon AU",
+            "format": "Kindle",
+            "url": "https://www.amazon.com.au/dp/B0GT5TTQWS?tag=hiligaynon101-22"
+          }
+        ],
+        "previewMarket": "Amazon AU",
+        "previewFormat": "Kindle"
       }
     ],
     "details": {
@@ -146,7 +174,9 @@
         "localImage": "/assets/cover-kids-current.jpg",
         "image": "https://images-na.ssl-images-amazon.com/images/P/B0H266YQC6.01._SCLZZZZZZZ_SX500_.jpg",
         "amazonFormat": "Paperback",
-        "amazonAuFormat": "Paperback"
+        "amazonAuFormat": "Paperback",
+        "previewMarket": "Amazon US",
+        "previewFormat": "Paperback"
       }
     ],
     "details": {
@@ -193,7 +223,9 @@
         "localImage": "/assets/cover-kids-animals-current.jpg",
         "image": "https://images-na.ssl-images-amazon.com/images/P/B0H4FVZPKC.01._SCLZZZZZZZ_SX500_.jpg",
         "amazonFormat": "Paperback",
-        "amazonAuFormat": "Paperback"
+        "amazonAuFormat": "Paperback",
+        "previewMarket": "Amazon US",
+        "previewFormat": "Paperback"
       }
     ],
     "details": {

@@ -33,6 +33,11 @@ function validateSite(site, src, errors) {
     requireString(site[field], `site.${field}`, errors);
   }
 
+  requireArray(site.contentLanguages, "site.contentLanguages", errors);
+  if (Array.isArray(site.contentLanguages)) {
+    assert(site.contentLanguages.includes("hil") && site.contentLanguages.includes("en"), "Book and sample content must identify Hiligaynon and English.", errors);
+  }
+
   requireArray(site.keywords, "site.keywords", errors);
   requireArray(site.navigation, "site.navigation", errors);
 
@@ -120,6 +125,28 @@ function validateBooks(books, src, errors) {
         if (isNonEmptyString(edition?.[field])) {
           assert(isExternalUrl(edition[field]), `${editionPrefix}.${field} must be an absolute http(s) URL.`, errors);
         }
+      }
+      if (edition.additionalLinks !== undefined) {
+        requireArray(edition.additionalLinks, `${editionPrefix}.additionalLinks`, errors);
+        if (Array.isArray(edition.additionalLinks)) {
+          const choices = new Set([`Amazon US/${edition.amazonFormat}`, `Amazon AU/${edition.amazonAuFormat}`]);
+          edition.additionalLinks.forEach((link, index) => {
+            assert(["Amazon US", "Amazon AU"].includes(link.market), `${editionPrefix}.additionalLinks[${index}] must name a supported marketplace.`, errors);
+            assert(["Kindle", "Paperback"].includes(link.format), `${editionPrefix}.additionalLinks[${index}] must identify the linked format.`, errors);
+            assert(isExternalUrl(link.url), `${editionPrefix}.additionalLinks[${index}] must have an absolute URL.`, errors);
+            const choice = `${link.market}/${link.format}`;
+            assert(!choices.has(choice), `${editionPrefix} repeats purchase choice ${choice}.`, errors);
+            choices.add(choice);
+          });
+        }
+      }
+      if (edition.previewMarket || edition.previewFormat) {
+        const choices = [
+          { market: "Amazon US", format: edition.amazonFormat },
+          { market: "Amazon AU", format: edition.amazonAuFormat },
+          ...(Array.isArray(edition.additionalLinks) ? edition.additionalLinks : [])
+        ];
+        assert(choices.some(link => link.market === edition.previewMarket && link.format === edition.previewFormat), `${editionPrefix} preview needs a matching current purchase link.`, errors);
       }
       if (isNonEmptyString(edition?.localImage)) {
         assert(!isExternalUrl(edition.localImage), `${editionPrefix}.localImage must be a local asset path.`, errors);

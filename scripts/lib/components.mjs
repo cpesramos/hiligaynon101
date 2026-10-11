@@ -1,3 +1,4 @@
+import { purchaseLinks, previewLink } from "./books.mjs";
 import { attr, escapeHtml } from "./html.mjs";
 
 const coverDimensions = {
@@ -36,7 +37,13 @@ export function renderMarketLinks(book, edition) {
     const label = `${market} · ${format}`;
     return `<a class="edition-button${secondary}" href="${attr(url)}" rel="sponsored" aria-label="${attr(`${label} for ${book.subtitle}, ${edition.label}`)}">${escapeHtml(label)}</a>`;
   };
-  return `<div class="edition-actions">${link("Amazon US", edition.amazonFormat, edition.amazonUrl)}${link("Amazon AU", edition.amazonAuFormat, edition.amazonAuUrl, " secondary")}</div>`;
+  return `<div class="edition-actions">${purchaseLinks(edition).map(item => link(item.market, item.format, item.url, item.market === "Amazon AU" ? " secondary" : "")).join("")}</div>`;
+}
+
+export function renderPreviewLink(book, edition) {
+  const preview = previewLink(edition);
+  if (!preview) return "";
+  return `<a class="book-detail-link" href="${attr(preview.url)}" rel="sponsored" aria-label="${attr(`Open the ${preview.format} preview listing for ${book.subtitle}, ${edition.label}`)}">Preview on ${escapeHtml(preview.market)} · ${escapeHtml(preview.format)}</a><p class="preview-note">Choose “Read sample” on the listing.${preview.format === "Kindle" ? " Kindle and paperback layouts may differ." : ""}</p>`;
 }
 
 export const stylesheet = (site) => `<link rel="stylesheet" href="/styles.css?v=${attr(site.lastModified)}">`;
